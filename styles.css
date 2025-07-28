@@ -459,4 +459,117 @@ body {
     background: #eee;
     color: var(--blue);
     margin-top: 0.5rem;
+}
+
+/* Upload Video Modal Specific */
+#uploadVideoModal .modal-content {
+    max-width: 500px;
+}
+
+#uploadVideoModal .form-group {
+    text-align: left;
+}
+
+#uploadVideoModal .btn {
+    width: 100%;
+    margin-top: 1rem;
+}
+
+#uploadVideoModal .btn.cancel {
+    background: #eee;
+    color: var(--blue);
+    margin-top: 0.5rem;
+}
+
+/* Message Styles */
+.message {
+    margin-top: 1rem;
+    padding: 0.8rem;
+    border-radius: 8px;
+    font-weight: 500;
+    text-align: center;
+}
+
+.message.success {
+    background: #D1FAE5;
+    color: #065F46;
+    border: 1px solid #A7F3D0;
+}
+
+.message.error {
+    background: #FEE2E2;
+    color: #DC2626;
+    border: 1px solid #FCA5A5;
+}
+
+/* Video Grid Enhancements */
+.video-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+    padding: 2rem 0;
+}
+
+.video-card {
+    background: var(--white);
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    transition: transform 0.3s ease;
+    position: relative;
+}
+
+.video-card:hover {
+    transform: scale(1.02);
+}
+
+.video-card.new {
+    border: 2px solid var(--orange);
+    animation: pulse 2s infinite;
+}
+
+.video-thumbnail {
+    width: 100%;
+    height: 200px;
+    background: var(--gradient);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--white);
+    font-size: 3rem;
+    position: relative;
+}
+
+.video-thumbnail.youtube {
+    background: linear-gradient(135deg, #FF0000 0%, #CC0000 100%);
+}
+
+.video-thumbnail.vimeo {
+    background: linear-gradient(135deg, #1AB7EA 0%, #0E8BC3 100%);
+}
+
+.video-info {
+    padding: 1rem;
+}
+
+.video-info h4 {
+    margin-bottom: 0.5rem;
+    color: var(--dark-gray);
+}
+
+.video-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 1rem;
+}
+
+.video-actions {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.video-actions .btn {
+    padding: 0.3rem 0.8rem;
+    font-size: 0.8rem;
 } 

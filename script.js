@@ -86,6 +86,47 @@ function closeRegisterModal() {
     document.getElementById('registerModal').style.display = 'none';
 }
 
+// Funciones para el modal de subida de videos
+function openUploadVideoModal() {
+    if (!currentUser) {
+        openLoginModal();
+        return;
+    }
+    document.getElementById('uploadVideoModal').style.display = 'flex';
+}
+
+function closeUploadVideoModal() {
+    document.getElementById('uploadVideoModal').style.display = 'none';
+    document.getElementById('uploadVideoForm').reset();
+    document.getElementById('videoMessage').textContent = '';
+    document.getElementById('videoMessage').className = 'message';
+}
+
+// Función para detectar el tipo de plataforma de video
+function getVideoPlatform(url) {
+    if (url.includes('youtube.com') || url.includes('youtu.be')) {
+        return 'youtube';
+    } else if (url.includes('vimeo.com')) {
+        return 'vimeo';
+    } else {
+        return 'generic';
+    }
+}
+
+// Función para extraer el ID del video de YouTube
+function getYouTubeVideoId(url) {
+    const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
+    const match = url.match(regExp);
+    return (match && match[2].length === 11) ? match[2] : null;
+}
+
+// Función para extraer el ID del video de Vimeo
+function getVimeoVideoId(url) {
+    const regExp = /vimeo\.com\/([0-9]+)/;
+    const match = url.match(regExp);
+    return match ? match[1] : null;
+}
+
 // Funciones para agregar elementos al DOM
 function addForumPostToDOM(post) {
     const forumPosts = document.getElementById('forumPosts');
@@ -156,6 +197,63 @@ function addTaskToDOM(task) {
     `;
     
     tasksList.insertBefore(taskElement, tasksList.firstChild);
+}
+
+function addVideoToDOM(video) {
+    const videoGrid = document.getElementById('videoGrid');
+    const platform = getVideoPlatform(video.url);
+    
+    const levelColors = {
+        basic: '#DBEAFE',
+        intermediate: '#FEF3C7',
+        advanced: '#D1FAE5'
+    };
+    
+    const levelText = {
+        basic: 'Básico',
+        intermediate: 'Intermedio',
+        advanced: 'Avanzado'
+    };
+    
+    const videoElement = document.createElement('div');
+    videoElement.className = 'video-card new';
+    videoElement.innerHTML = `
+        <div class="video-thumbnail ${platform}">
+            ${platform === 'youtube' ? '📺' : platform === 'vimeo' ? '🎬' : '▶️'}
+        </div>
+        <div class="video-info">
+            <h4>${video.title}</h4>
+            <p style="color: #64748B; margin: 0.5rem 0;">${video.subject} • ${video.duration} min</p>
+            <div class="video-meta">
+                <span style="background: ${levelColors[video.level]}; color: ${video.level === 'basic' ? '#1E40AF' : video.level === 'intermediate' ? '#92400E' : '#065F46'}; padding: 0.3rem 0.8rem; border-radius: 15px; font-size: 0.8rem;">${levelText[video.level]}</span>
+                <div class="video-actions">
+                    <button class="btn" onclick="watchVideo('${video.url}')">Ver Video</button>
+                    <button class="btn" style="background: #eee; color: var(--blue);" onclick="shareVideo('${video.url}')">Compartir</button>
+                </div>
+            </div>
+        </div>
+    `;
+    
+    videoGrid.insertBefore(videoElement, videoGrid.firstChild);
+    
+    // Remover la clase 'new' después de 3 segundos
+    setTimeout(() => {
+        videoElement.classList.remove('new');
+    }, 3000);
+}
+
+function watchVideo(url) {
+    // Abrir el video en una nueva pestaña
+    window.open(url, '_blank');
+}
+
+function shareVideo(url) {
+    // Copiar URL al portapapeles
+    navigator.clipboard.writeText(url).then(() => {
+        showNotification('¡URL del video copiada al portapapeles!');
+    }).catch(() => {
+        showNotification('Error al copiar la URL', 'error');
+    });
 }
 
 function updateUIForUser(user) {
@@ -340,6 +438,56 @@ document.addEventListener('DOMContentLoaded', function() {
         showNotification('¡Registro exitoso!');
         showPage('home');
     });
+
+    // Upload Video Form
+    document.getElementById('uploadVideoForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const videoData = {
+            id: Date.now(),
+            url: document.getElementById('videoUrl').value.trim(),
+            title: document.getElementById('videoTitle').value.trim(),
+            subject: document.getElementById('videoSubject').value,
+            duration: parseInt(document.getElementById('videoDuration').value),
+            level: document.getElementById('videoLevel').value,
+            description: document.getElementById('videoDescription').value.trim(),
+            uploadedBy: currentUser?.name || 'Usuario Anónimo',
+            uploadedById: currentUser?.id,
+            date: new Date().toISOString(),
+            platform: getVideoPlatform(document.getElementById('videoUrl').value)
+        };
+        
+        // Validar URL
+        if (!videoData.url) {
+            showVideoMessage('Por favor ingresa una URL válida', 'error');
+            return;
+        }
+        
+        // Validar plataforma soportada
+        if (videoData.platform === 'generic') {
+            showVideoMessage('Solo se soportan videos de YouTube y Vimeo', 'error');
+            return;
+        }
+        
+        // Simular subida exitosa
+        db.videos = db.videos || [];
+        db.videos.push(videoData);
+        addVideoToDOM(videoData);
+        
+        showVideoMessage('¡Video subido exitosamente!', 'success');
+        showNotification('¡Video agregado a la biblioteca!');
+        
+        // Limpiar formulario y cerrar modal después de 2 segundos
+        setTimeout(() => {
+            closeUploadVideoModal();
+        }, 2000);
+    });
+
+    function showVideoMessage(message, type) {
+        const messageDiv = document.getElementById('videoMessage');
+        messageDiv.textContent = message;
+        messageDiv.className = `message ${type}`;
+    }
 
     // Formateo automático de campos
     document.getElementById('cardNumber').addEventListener('input', function(e) {

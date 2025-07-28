@@ -89,6 +89,57 @@
         </div>
     </div>
 
+    <!-- Modal para subir video -->
+    <div id="uploadVideoModal" class="modal">
+        <div class="modal-content">
+            <h3>🎥 Subir Video por URL</h3>
+            <form id="uploadVideoForm">
+                <div class="form-group">
+                    <label for="videoUrl">URL del Video:</label>
+                    <input type="url" id="videoUrl" required placeholder="Ej: https://www.youtube.com/watch?v=dQw4w9WgXcQ">
+                </div>
+                <div class="form-group">
+                    <label for="videoTitle">Título del Video:</label>
+                    <input type="text" id="videoTitle" required placeholder="Un título para tu video">
+                </div>
+                <div class="form-group">
+                    <label for="videoSubject">Materia:</label>
+                    <select id="videoSubject" required>
+                        <option value="">Seleccionar materia</option>
+                        <option value="math">Matemáticas</option>
+                        <option value="spanish">Español</option>
+                        <option value="science">Ciencias</option>
+                        <option value="history">Historia</option>
+                        <option value="english">Inglés</option>
+                        <option value="geography">Geografía</option>
+                        <option value="art">Arte</option>
+                        <option value="music">Música</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="videoDuration">Duración (minutos):</label>
+                    <input type="number" id="videoDuration" required placeholder="45" min="1" max="300">
+                </div>
+                <div class="form-group">
+                    <label for="videoLevel">Nivel:</label>
+                    <select id="videoLevel" required>
+                        <option value="">Seleccionar nivel</option>
+                        <option value="basic">Básico</option>
+                        <option value="intermediate">Intermedio</option>
+                        <option value="advanced">Avanzado</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="videoDescription">Descripción:</label>
+                    <textarea id="videoDescription" rows="3" placeholder="Una breve descripción del video"></textarea>
+                </div>
+                <button type="submit" class="btn">Subir Video</button>
+                <button type="button" class="btn cancel" onclick="closeUploadVideoModal()">Cancelar</button>
+            </form>
+            <div id="videoMessage" class="message"></div>
+        </div>
+    </div>
+
     <!-- Main Container -->
     <main class="main-container">
         <!-- Home Page -->
@@ -413,7 +464,14 @@
                 <h2 style="color: var(--blue); margin-bottom: 2rem;">Contenido Multimedia</h2>
                 <p style="text-align: center; margin-bottom: 2rem;">Accede a videos educativos y material audiovisual</p>
                 
-                <div class="video-grid">
+                <!-- Botón para subir video -->
+                <div style="text-align: center; margin-bottom: 2rem;">
+                    <button class="btn" onclick="openUploadVideoModal()" style="font-size: 1.1rem; padding: 1rem 2rem;">
+                        🎥 Subir Nuevo Video
+                    </button>
+                </div>
+                
+                <div class="video-grid" id="videoGrid">
                     <div class="video-card">
                         <div class="video-thumbnail">▶️</div>
                         <div class="video-info">
