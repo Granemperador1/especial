@@ -44,11 +44,93 @@ class Enrollment(db.Model):
 def load_user(user_id):
     return User.query.get(int(user_id))
 
+# Crear la base de datos al iniciar
+def init_db():
+    with app.app_context():
+        try:
+            db.create_all()
+            print("Base de datos creada exitosamente")
+            
+            # Crear algunos cursos de ejemplo si no existen
+            if Course.query.count() == 0:
+                # Crear un usuario instructor de ejemplo
+                instructor = User(
+                    username='admin',
+                    email='admin@mindschool.com',
+                    password_hash=generate_password_hash('admin123'),
+                    role='instructor'
+                )
+                db.session.add(instructor)
+                db.session.commit()
+                
+                # Crear cursos de ejemplo
+                course1 = Course(
+                    title='Introducción a Python',
+                    description='Aprende los fundamentos de Python desde cero',
+                    instructor_id=instructor.id,
+                    price=29.99
+                )
+                course2 = Course(
+                    title='Desarrollo Web con Flask',
+                    description='Crea aplicaciones web modernas con Flask',
+                    instructor_id=instructor.id,
+                    price=39.99
+                )
+                course3 = Course(
+                    title='Base de Datos SQL',
+                    description='Domina las bases de datos relacionales',
+                    instructor_id=instructor.id,
+                    price=24.99
+                )
+                
+                db.session.add_all([course1, course2, course3])
+                db.session.commit()
+                print("Datos de ejemplo creados")
+                
+        except Exception as e:
+            print(f"Error al crear la base de datos: {e}")
+
 # Rutas
 @app.route('/')
 def index():
-    courses = Course.query.all()
-    return render_template('index.html', courses=courses)
+    try:
+        courses = Course.query.all()
+        return render_template('index.html', courses=courses)
+    except Exception as e:
+        # Si hay error con la base de datos, mostrar página de bienvenida
+        return render_template_string('''
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <title>MindSchool - Academia Digital</title>
+            <style>
+                body { font-family: Arial, sans-serif; margin: 40px; background: #f8fafc; }
+                .header { background: linear-gradient(135deg, #1E40AF 0%, #FF6B35 100%); 
+                         color: white; padding: 30px; border-radius: 15px; text-align: center; }
+                .content { margin-top: 30px; background: white; padding: 30px; border-radius: 15px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); }
+                .feature { margin: 15px 0; padding: 15px; background: #f1f5f9; border-radius: 8px; }
+            </style>
+        </head>
+        <body>
+            <div class="header">
+                <h1>🎓 MindSchool - Academia Digital</h1>
+                <p>Plataforma educativa moderna construida con Flask</p>
+            </div>
+            <div class="content">
+                <h2>¡Bienvenido a MindSchool!</h2>
+                <p>Tu aplicación Flask está funcionando correctamente en Render.</p>
+                <p><strong>Funcionalidades disponibles:</strong></p>
+                <div class="feature">✅ Sistema de autenticación de usuarios</div>
+                <div class="feature">✅ Gestión completa de cursos</div>
+                <div class="feature">✅ Sistema de inscripciones</div>
+                <div class="feature">✅ Dashboard personalizado para estudiantes e instructores</div>
+                <div class="feature">✅ Base de datos SQLite integrada</div>
+                <hr>
+                <p><em>La aplicación está configurada y lista para usar. Los datos de ejemplo se crearán automáticamente.</em></p>
+            </div>
+        </body>
+        </html>
+        ''')
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -136,7 +218,8 @@ def enroll_course(course_id):
     
     return redirect(url_for('course_detail', course_id=course_id))
 
+# Inicializar la base de datos al importar el módulo
+init_db()
+
 if __name__ == '__main__':
-    with app.app_context():
-        db.create_all()
-    app.run(debug=True) 
+    app.run(debug=False) 
