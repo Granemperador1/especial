@@ -53,7 +53,26 @@ function connectToDatabase() {
         assignments: [],
         payments: [],
         forum_posts: [],
-        messages: []
+        messages: [],
+        tasks: [
+            {
+                id: 1,
+                title: 'Ensayo sobre Literatura Contemporánea',
+                subject: 'Matemáticas',
+                description: 'Análisis profundo de las corrientes literarias modernas y su impacto en la sociedad actual.',
+                duration: 45,
+                uploadedBy: 'María González',
+                uploadedById: 2,
+                date: new Date().toISOString(),
+                file: {
+                    name: 'ensayo_literatura.pdf',
+                    size: 245760, // 240KB
+                    type: 'application/pdf'
+                }
+            }
+        ],
+        videos: [],
+        images: []
     };
 }
 
@@ -217,7 +236,10 @@ function addTaskToDOM(task) {
         </div>
         <div style="display: flex; align-items: center; gap: 1rem;">
             <span class="task-status status-pending">Pendiente</span>
-            <button class="btn" style="padding: 0.5rem 1rem;">Ver</button>
+            <div style="display: flex; gap: 0.5rem;">
+                <button class="btn" style="padding: 0.5rem 1rem;" onclick="viewTask('${task.id}')">Ver Tarea</button>
+                <button class="btn" style="padding: 0.5rem 1rem;" onclick="downloadTask('${task.id}')">Descargar</button>
+            </div>
         </div>
     `;
     
@@ -279,6 +301,72 @@ function shareVideo(url) {
     }).catch(() => {
         showNotification('Error al copiar la URL', 'error');
     });
+}
+
+// Funciones para manejar tareas
+function viewTask(taskId) {
+    const task = db.tasks?.find(t => t.id == taskId);
+    if (!task) {
+        showNotification('Tarea no encontrada', 'error');
+        return;
+    }
+    
+    // Crear modal para ver tarea
+    const modal = document.createElement('div');
+    modal.className = 'modal';
+    modal.style.display = 'flex';
+    modal.innerHTML = `
+        <div class="modal-content" style="max-width: 600px; max-height: 80vh;">
+            <h3>📚 ${task.title}</h3>
+            <div style="text-align: left; margin: 1rem 0;">
+                <p><strong>Materia:</strong> ${task.subject}</p>
+                <p><strong>Descripción:</strong> ${task.description || 'Sin descripción'}</p>
+                <p><strong>Subido por:</strong> ${task.uploadedBy}</p>
+                <p><strong>Fecha:</strong> ${new Date(task.date).toLocaleDateString()}</p>
+            </div>
+            ${task.file ? `
+                <div style="margin: 1rem 0;">
+                    <h4>Archivo adjunto:</h4>
+                    <div style="background: #f8f9fa; padding: 1rem; border-radius: 8px; border: 1px solid #e9ecef;">
+                        <p style="margin: 0;"><strong>Nombre:</strong> ${task.file.name}</p>
+                        <p style="margin: 0.5rem 0;"><strong>Tamaño:</strong> ${(task.file.size / 1024).toFixed(1)} KB</p>
+                        <p style="margin: 0;"><strong>Tipo:</strong> ${task.file.type}</p>
+                    </div>
+                </div>
+            ` : ''}
+            <div style="display: flex; gap: 1rem; margin-top: 1rem;">
+                <button class="btn" onclick="downloadTask('${task.id}')">Descargar Archivo</button>
+                <button class="btn" style="background: #eee; color: var(--blue);" onclick="this.parentElement.parentElement.parentElement.remove()">Cerrar</button>
+            </div>
+        </div>
+    `;
+    document.body.appendChild(modal);
+    
+    // Cerrar modal al hacer clic fuera
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+            modal.remove();
+        }
+    });
+}
+
+function downloadTask(taskId) {
+    const task = db.tasks?.find(t => t.id == taskId);
+    if (!task || !task.file) {
+        showNotification('Archivo no disponible para descarga', 'error');
+        return;
+    }
+    
+    // Crear enlace temporal para descarga
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(task.file);
+    link.download = task.file.name || `${task.title.replace(/[^a-z0-9]/gi, '_').toLowerCase()}.pdf`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(link.href);
+    
+    showNotification('Descarga iniciada');
 }
 
 // Funciones para manejar imágenes
