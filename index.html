@@ -140,6 +140,56 @@
         </div>
     </div>
 
+    <!-- Modal para subir imagen -->
+    <div id="uploadImageModal" class="modal">
+        <div class="modal-content">
+            <h3>🖼️ Subir Imagen</h3>
+            <form id="uploadImageForm">
+                <div class="form-group">
+                    <label for="imageFile">Archivo de Imagen:</label>
+                    <input type="file" id="imageFile" accept="image/*" required>
+                </div>
+                <div class="form-group">
+                    <label for="imageTitle">Título de la Imagen:</label>
+                    <input type="text" id="imageTitle" required placeholder="Un título para tu imagen">
+                </div>
+                <div class="form-group">
+                    <label for="imageSubject">Materia:</label>
+                    <select id="imageSubject" required>
+                        <option value="">Seleccionar materia</option>
+                        <option value="math">Matemáticas</option>
+                        <option value="spanish">Español</option>
+                        <option value="science">Ciencias</option>
+                        <option value="history">Historia</option>
+                        <option value="english">Inglés</option>
+                        <option value="geography">Geografía</option>
+                        <option value="art">Arte</option>
+                        <option value="music">Música</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="imageCategory">Categoría:</label>
+                    <select id="imageCategory" required>
+                        <option value="">Seleccionar categoría</option>
+                        <option value="diagram">Diagrama</option>
+                        <option value="chart">Gráfico</option>
+                        <option value="photo">Fotografía</option>
+                        <option value="illustration">Ilustración</option>
+                        <option value="infographic">Infografía</option>
+                        <option value="other">Otro</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="imageDescription">Descripción:</label>
+                    <textarea id="imageDescription" rows="3" placeholder="Una breve descripción de la imagen"></textarea>
+                </div>
+                <button type="submit" class="btn">Subir Imagen</button>
+                <button type="button" class="btn cancel" onclick="closeUploadImageModal()">Cancelar</button>
+            </form>
+            <div id="imageMessage" class="message"></div>
+        </div>
+    </div>
+
     <!-- Main Container -->
     <main class="main-container">
         <!-- Home Page -->
@@ -406,8 +456,19 @@
         <!-- Tasks Page -->
         <div id="tasks" class="page">
             <div style="max-width: 1000px; margin: 2rem auto; padding: 0 2rem;">
-                <h2 style="color: var(--blue); margin-bottom: 2rem;">Gestión de Tareas</h2>
+                <h2 style="color: var(--blue); margin-bottom: 2rem;">Gestión de Tareas y Recursos</h2>
                 
+                <!-- Botones de acción -->
+                <div style="display: flex; gap: 1rem; margin-bottom: 2rem; flex-wrap: wrap;">
+                    <button class="btn" onclick="openTaskModal()" style="flex: 1; min-width: 200px;">
+                        📚 Subir Tarea
+                    </button>
+                    <button class="btn" onclick="openImageModal()" style="flex: 1; min-width: 200px;">
+                        🖼️ Subir Imagen
+                    </button>
+                </div>
+                
+                <!-- Sección de Tareas -->
                 <div class="form-container" style="margin-bottom: 2rem;">
                     <h3>Subir Nueva Tarea</h3>
                     <form id="taskForm">
@@ -454,6 +515,12 @@
                             </div>
                         </div>
                     </div>
+                </div>
+                
+                <!-- Sección de Imágenes -->
+                <h3 style="margin: 2rem 0 1rem 0;">Galería de Imágenes</h3>
+                <div id="imagesGrid" class="images-grid">
+                    <!-- Las imágenes se cargarán dinámicamente aquí -->
                 </div>
             </div>
         </div>

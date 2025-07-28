@@ -102,6 +102,31 @@ function closeUploadVideoModal() {
     document.getElementById('videoMessage').className = 'message';
 }
 
+// Funciones para el modal de subida de imágenes
+function openImageModal() {
+    if (!currentUser) {
+        openLoginModal();
+        return;
+    }
+    document.getElementById('uploadImageModal').style.display = 'flex';
+}
+
+function closeUploadImageModal() {
+    document.getElementById('uploadImageModal').style.display = 'none';
+    document.getElementById('uploadImageForm').reset();
+    document.getElementById('imageMessage').textContent = '';
+    document.getElementById('imageMessage').className = 'message';
+}
+
+function openTaskModal() {
+    if (!currentUser) {
+        openLoginModal();
+        return;
+    }
+    // Mostrar el formulario de tareas existente
+    document.querySelector('#tasks .form-container').style.display = 'block';
+}
+
 // Función para detectar el tipo de plataforma de video
 function getVideoPlatform(url) {
     if (url.includes('youtube.com') || url.includes('youtu.be')) {
@@ -253,6 +278,97 @@ function shareVideo(url) {
         showNotification('¡URL del video copiada al portapapeles!');
     }).catch(() => {
         showNotification('Error al copiar la URL', 'error');
+    });
+}
+
+// Funciones para manejar imágenes
+function addImageToDOM(image) {
+    const imagesGrid = document.getElementById('imagesGrid');
+    
+    const categoryColors = {
+        diagram: 'category-diagram',
+        chart: 'category-chart',
+        photo: 'category-photo',
+        illustration: 'category-illustration',
+        infographic: 'category-infographic',
+        other: 'category-other'
+    };
+    
+    const categoryText = {
+        diagram: 'Diagrama',
+        chart: 'Gráfico',
+        photo: 'Fotografía',
+        illustration: 'Ilustración',
+        infographic: 'Infografía',
+        other: 'Otro'
+    };
+    
+    const imageElement = document.createElement('div');
+    imageElement.className = 'image-card new';
+    imageElement.innerHTML = `
+        <div class="image-preview">
+            <img src="${image.preview}" alt="${image.title}" onerror="this.style.display='none'; this.parentElement.innerHTML='🖼️';">
+        </div>
+        <div class="image-info">
+            <h4>${image.title}</h4>
+            <p style="color: #64748B; margin: 0.5rem 0;">${image.subject} • Subido por ${image.uploadedBy}</p>
+            <div class="image-meta">
+                <span class="image-category ${categoryColors[image.category]}">${categoryText[image.category]}</span>
+                <div class="image-actions">
+                    <button class="btn" onclick="viewImage('${image.preview}', '${image.title}')">Ver</button>
+                    <button class="btn" style="background: #eee; color: var(--blue);" onclick="downloadImage('${image.preview}', '${image.title}')">Descargar</button>
+                </div>
+            </div>
+        </div>
+    `;
+    
+    imagesGrid.insertBefore(imageElement, imagesGrid.firstChild);
+    
+    // Remover la clase 'new' después de 3 segundos
+    setTimeout(() => {
+        imageElement.classList.remove('new');
+    }, 3000);
+}
+
+function viewImage(src, title) {
+    // Crear modal para ver imagen
+    const modal = document.createElement('div');
+    modal.className = 'modal';
+    modal.style.display = 'flex';
+    modal.innerHTML = `
+        <div class="modal-content" style="max-width: 80vw; max-height: 80vh;">
+            <h3>${title}</h3>
+            <img src="${src}" alt="${title}" style="max-width: 100%; max-height: 60vh; object-fit: contain;">
+            <button class="btn" onclick="this.parentElement.parentElement.remove()" style="margin-top: 1rem;">Cerrar</button>
+        </div>
+    `;
+    document.body.appendChild(modal);
+    
+    // Cerrar modal al hacer clic fuera
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+            modal.remove();
+        }
+    });
+}
+
+function downloadImage(src, title) {
+    // Crear enlace temporal para descarga
+    const link = document.createElement('a');
+    link.href = src;
+    link.download = title.replace(/[^a-z0-9]/gi, '_').toLowerCase() + '.jpg';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    showNotification('Descarga iniciada');
+}
+
+// Función para crear preview de imagen
+function createImagePreview(file) {
+    return new Promise((resolve) => {
+        const reader = new FileReader();
+        reader.onload = (e) => resolve(e.target.result);
+        reader.readAsDataURL(file);
     });
 }
 
@@ -485,6 +601,72 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function showVideoMessage(message, type) {
         const messageDiv = document.getElementById('videoMessage');
+        messageDiv.textContent = message;
+        messageDiv.className = `message ${type}`;
+    }
+
+    // Upload Image Form
+    document.getElementById('uploadImageForm').addEventListener('submit', async function(e) {
+        e.preventDefault();
+        
+        const file = document.getElementById('imageFile').files[0];
+        if (!file) {
+            showImageMessage('Por favor selecciona una imagen', 'error');
+            return;
+        }
+        
+        // Validar tipo de archivo
+        if (!file.type.startsWith('image/')) {
+            showImageMessage('Por favor selecciona un archivo de imagen válido', 'error');
+            return;
+        }
+        
+        // Validar tamaño (máximo 5MB)
+        if (file.size > 5 * 1024 * 1024) {
+            showImageMessage('La imagen debe ser menor a 5MB', 'error');
+            return;
+        }
+        
+        try {
+            // Crear preview de la imagen
+            const preview = await createImagePreview(file);
+            
+            const imageData = {
+                id: Date.now(),
+                file: file,
+                title: document.getElementById('imageTitle').value.trim(),
+                subject: document.getElementById('imageSubject').value,
+                category: document.getElementById('imageCategory').value,
+                description: document.getElementById('imageDescription').value.trim(),
+                uploadedBy: currentUser?.name || 'Usuario Anónimo',
+                uploadedById: currentUser?.id,
+                date: new Date().toISOString(),
+                preview: preview,
+                size: file.size,
+                type: file.type
+            };
+            
+            // Simular subida exitosa
+            db.images = db.images || [];
+            db.images.push(imageData);
+            addImageToDOM(imageData);
+            
+            showImageMessage('¡Imagen subida exitosamente!', 'success');
+            showNotification('¡Imagen agregada a la galería!');
+            
+            // Limpiar formulario y cerrar modal después de 2 segundos
+            setTimeout(() => {
+                closeUploadImageModal();
+            }, 2000);
+            
+        } catch (error) {
+            console.error('Error al procesar imagen:', error);
+            showImageMessage('Error al procesar la imagen', 'error');
+        }
+    });
+
+    function showImageMessage(message, type) {
+        const messageDiv = document.getElementById('imageMessage');
         messageDiv.textContent = message;
         messageDiv.className = `message ${type}`;
     }
