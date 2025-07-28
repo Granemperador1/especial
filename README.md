@@ -88,12 +88,38 @@ La aplicación utiliza SQLite con los siguientes modelos:
 
 ## 🚀 Despliegue
 
-Para desplegar en producción:
+### Heroku
+1. Instalar Heroku CLI
+2. Ejecutar:
+   ```bash
+   heroku create tu-app-name
+   git push heroku main
+   heroku open
+   ```
 
-1. Configurar variables de entorno
-2. Usar un servidor WSGI como Gunicorn
-3. Configurar una base de datos PostgreSQL
-4. Configurar un servidor web como Nginx
+### Vercel
+1. Conectar tu repositorio de GitHub a Vercel
+2. Vercel detectará automáticamente la configuración de Python
+3. El archivo `vercel.json` ya está configurado
+
+### Google App Engine
+1. Instalar Google Cloud SDK
+2. Ejecutar:
+   ```bash
+   gcloud app deploy
+   ```
+
+### Railway
+1. Conectar tu repositorio de GitHub a Railway
+2. Railway detectará automáticamente la aplicación Python
+3. Configurar variables de entorno si es necesario
+
+### Variables de Entorno Recomendadas
+```bash
+FLASK_ENV=production
+SECRET_KEY=tu_clave_secreta_muy_segura
+DATABASE_URL=postgresql://usuario:password@host:puerto/database
+```
 
 ## 🤝 Contribuir
 
