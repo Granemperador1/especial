@@ -4,78 +4,486 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MindSchool - Academia Digital</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --orange: #FF6B35;
+            --blue: #1E40AF;
+            --white: #FFFFFF;
+            --light-gray: #F8FAFC;
+            --dark-gray: #334155;
+            --shadow: 0 4px 20px rgba(0,0,0,0.1);
+            --gradient: linear-gradient(135deg, var(--blue) 0%, var(--orange) 100%);
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--light-gray);
+            color: var(--dark-gray);
+            overflow-x: hidden;
+        }
+
+        /* Animaciones */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        @keyframes slideIn {
+            from { transform: translateX(-100%); }
+            to { transform: translateX(0); }
+        }
+
+        /* Header */
+        .header {
+            background: var(--gradient);
+            padding: 1rem 0;
+            box-shadow: var(--shadow);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            animation: slideIn 0.8s ease-out;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+        }
+
+        .logo {
+            color: var(--white);
+            font-size: 2rem;
+            font-weight: bold;
+            animation: pulse 2s infinite;
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-item {
+            color: var(--white);
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .nav-item:hover, .nav-item.active {
+            background: rgba(255,255,255,0.2);
+            transform: translateY(-2px);
+        }
+
+        /* Main Container */
+        .main-container {
+            margin-top: 80px;
+            min-height: calc(100vh - 80px);
+        }
+
+        .page {
+            display: none;
+            animation: fadeInUp 0.6s ease-out;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: var(--gradient);
+            color: var(--white);
+            text-align: center;
+            padding: 4rem 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            width: 200px;
+            height: 200px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            top: -100px;
+            right: -100px;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            width: 150px;
+            height: 150px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 50%;
+            bottom: -75px;
+            left: -75px;
+            animation: float 4s ease-in-out infinite reverse;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            animation: fadeInUp 1s ease-out 0.3s both;
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            animation: fadeInUp 1s ease-out 0.6s both;
+        }
+
+        /* Cards */
+        .cards-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            padding: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .card {
+            background: var(--white);
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: var(--shadow);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+        }
+
+        .card-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: var(--gradient);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+            color: var(--white);
+        }
+
+        /* Forms */
+        .form-container {
+            max-width: 500px;
+            margin: 2rem auto;
+            background: var(--white);
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: var(--shadow);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--dark-gray);
+            font-weight: 500;
+        }
+
+        .form-group input, .form-group textarea, .form-group select {
+            width: 100%;
+            padding: 0.8rem;
+            border: 2px solid #E2E8F0;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus, .form-group textarea:focus, .form-group select:focus {
+            outline: none;
+            border-color: var(--blue);
+            box-shadow: 0 0 0 3px rgba(30, 64, 175, 0.1);
+        }
+
+        .btn {
+            background: var(--gradient);
+            color: var(--white);
+            padding: 0.8rem 2rem;
+            border: none;
+            border-radius: 25px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        /* Messages and Forum */
+        .message-thread, .forum-post {
+            background: var(--white);
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            border-left: 4px solid var(--orange);
+        }
+
+        .message-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid #E2E8F0;
+        }
+
+        .avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--gradient);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--white);
+            font-weight: bold;
+        }
+
+        /* Tasks Section */
+        .task-item {
+            background: var(--white);
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .task-status {
+            padding: 0.3rem 1rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .status-pending {
+            background: #FEF3C7;
+            color: #92400E;
+        }
+
+        .status-completed {
+            background: #D1FAE5;
+            color: #065F46;
+        }
+
+        .status-graded {
+            background: #DBEAFE;
+            color: #1E40AF;
+        }
+
+        /* Video Section */
+        .video-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            padding: 2rem;
+        }
+
+        .video-card {
+            background: var(--white);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s ease;
+        }
+
+        .video-card:hover {
+            transform: scale(1.02);
+        }
+
+        .video-thumbnail {
+            width: 100%;
+            height: 200px;
+            background: var(--gradient);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--white);
+            font-size: 3rem;
+        }
+
+        .video-info {
+            padding: 1rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-menu {
+                display: none;
+            }
+            
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .cards-container {
+                grid-template-columns: 1fr;
+                padding: 1rem;
+            }
+        }
+
+        /* Notifications */
+        .notification {
+            position: fixed;
+            top: 100px;
+            right: 20px;
+            background: var(--white);
+            padding: 1rem 1.5rem;
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+            border-left: 4px solid var(--orange);
+            transform: translateX(400px);
+            transition: transform 0.3s ease;
+            z-index: 1001;
+        }
+
+        .notification.show {
+            transform: translateX(0);
+        }
+
+        /* Loading Animation */
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,.3);
+            border-radius: 50%;
+            border-top-color: var(--white);
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+    </style>
 </head>
-<body style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #F8FAFC; color: #334155; overflow-x: hidden;">
-    <header class="header" style="background: linear-gradient(135deg, #1E40AF 0%, #FF6B35 100%); padding: 1rem 0; box-shadow: 0 4px 20px rgba(0,0,0,0.1); position: fixed; width: 100%; top: 0; z-index: 1000;">
-        <nav class="nav-container" style="max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; padding: 0 2rem;">
-            <div class="logo" style="color: #FFFFFF; font-size: 2rem; font-weight: bold;">🎓 MindSchool</div>
-            <div class="nav-menu" style="display: flex; gap: 2rem;">
-                <a href="#home" class="nav-item active" style="color: #FFFFFF; text-decoration: none; padding: 0.5rem 1rem; border-radius: 25px; transition: all 0.3s ease; cursor: pointer; background: rgba(255,255,255,0.2);">Inicio</a>
-                <a href="#login" class="nav-item" style="color: #FFFFFF; text-decoration: none; padding: 0.5rem 1rem; border-radius: 25px; transition: all 0.3s ease; cursor: pointer;">Login</a>
-                <a href="#payments" class="nav-item" style="color: #FFFFFF; text-decoration: none; padding: 0.5rem 1rem; border-radius: 25px; transition: all 0.3s ease; cursor: pointer;">Pagos</a>
-                <a href="#forum" class="nav-item" style="color: #FFFFFF; text-decoration: none; padding: 0.5rem 1rem; border-radius: 25px; transition: all 0.3s ease; cursor: pointer;">Foro</a>
-                <a href="#messages" class="nav-item" style="color: #FFFFFF; text-decoration: none; padding: 0.5rem 1rem; border-radius: 25px; transition: all 0.3s ease; cursor: pointer;">Mensajes</a>
-                <a href="#tasks" class="nav-item" style="color: #FFFFFF; text-decoration: none; padding: 0.5rem 1rem; border-radius: 25px; transition: all 0.3s ease; cursor: pointer;">Tareas</a>
-                <a href="#videos" class="nav-item" style="color: #FFFFFF; text-decoration: none; padding: 0.5rem 1rem; border-radius: 25px; transition: all 0.3s ease; cursor: pointer;">Videos</a>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="nav-container">
+            <div class="logo">🎓 MindSchool</div>
+            <div class="nav-menu">
+                <a href="#" class="nav-item active" onclick="showPage('home')">Inicio</a>
+                <a href="#" class="nav-item" onclick="showPage('login')">Login</a>
+                <a href="#" class="nav-item" onclick="showPage('payments')">Pagos</a>
+                <a href="#" class="nav-item" onclick="showPage('forum')">Foro</a>
+                <a href="#" class="nav-item" onclick="showPage('messages')">Mensajes</a>
+                <a href="#" class="nav-item" onclick="showPage('tasks')">Tareas</a>
+                <a href="#" class="nav-item" onclick="showPage('videos')">Videos</a>
             </div>
         </nav>
     </header>
 
-    <main class="main-container" style="margin-top: 80px; min-height: calc(100vh - 80px);">
-        <div id="home" class="page" style="display: block;">
-            <section class="hero" style="background: linear-gradient(135deg, #1E40AF 0%, #FF6B35 100%); color: #FFFFFF; text-align: center; padding: 4rem 2rem; position: relative; overflow: hidden;">
-                <div class="hero-content" style="position: relative; z-index: 2;">
-                    <h1 style="font-size: 3.5rem; margin-bottom: 1rem;">Bienvenido a MindSchool</h1>
-                    <p style="font-size: 1.3rem; margin-bottom: 2rem;">La plataforma educativa que transforma tu aprendizaje</p>
+    <!-- Main Container -->
+    <main class="main-container">
+        <!-- Home Page -->
+        <div id="home" class="page active">
+            <section class="hero">
+                <div class="hero-content">
+                    <h1>Bienvenido a MindSchool</h1>
+                    <p>La plataforma educativa que transforma tu aprendizaje</p>
                 </div>
             </section>
             
-            <div class="cards-container" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; padding: 2rem; max-width: 1200px; margin: 0 auto;">
-                <div class="card" style="background: #FFFFFF; border-radius: 15px; padding: 2rem; box-shadow: 0 4px 20px rgba(0,0,0,0.1); transition: all 0.3s ease; cursor: pointer;">
-                    <div class="card-icon" style="width: 60px; height: 60px; border-radius: 50%; background: linear-gradient(135deg, #1E40AF 0%, #FF6B35 100%); display: flex; align-items: center; justify-content: center; margin-bottom: 1rem; font-size: 1.5rem; color: #FFFFFF;">🔐</div>
+            <div class="cards-container">
+                <div class="card" onclick="showPage('login')">
+                    <div class="card-icon">🔐</div>
                     <h3>Acceso Seguro</h3>
                     <p>Inicia sesión de forma segura con tu cuenta de estudiante o profesor</p>
                 </div>
                 
-                <div class="card" style="background: #FFFFFF; border-radius: 15px; padding: 2rem; box-shadow: 0 4px 20px rgba(0,0,0,0.1); transition: all 0.3s ease; cursor: pointer;">
-                    <div class="card-icon" style="width: 60px; height: 60px; border-radius: 50%; background: linear-gradient(135deg, #1E40AF 0%, #FF6B35 100%); display: flex; align-items: center; justify-content: center; margin-bottom: 1rem; font-size: 1.5rem; color: #FFFFFF;">📚</div>
+                <div class="card" onclick="showPage('tasks')">
+                    <div class="card-icon">📚</div>
                     <h3>Gestión de Tareas</h3>
                     <p>Sube, califica y gestiona todas tus tareas académicas</p>
                 </div>
                 
-                <div class="card" style="background: #FFFFFF; border-radius: 15px; padding: 2rem; box-shadow: 0 4px 20px rgba(0,0,0,0.1); transition: all 0.3s ease; cursor: pointer;">
-                    <div class="card-icon" style="width: 60px; height: 60px; border-radius: 50%; background: linear-gradient(135deg, #1E40AF 0%, #FF6B35 100%); display: flex; align-items: center; justify-content: center; margin-bottom: 1rem; font-size: 1.5rem; color: #FFFFFF;">💬</div>
+                <div class="card" onclick="showPage('forum')">
+                    <div class="card-icon">💬</div>
                     <h3>Foro Académico</h3>
                     <p>Participa en discusiones y colabora con tu comunidad</p>
                 </div>
                 
-                <div class="card" style="background: #FFFFFF; border-radius: 15px; padding: 2rem; box-shadow: 0 4px 20px rgba(0,0,0,0.1); transition: all 0.3s ease; cursor: pointer;">
-                    <div class="card-icon" style="width: 60px; height: 60px; border-radius: 50%; background: linear-gradient(135deg, #1E40AF 0%, #FF6B35 100%); display: flex; align-items: center; justify-content: center; margin-bottom: 1rem; font-size: 1.5rem; color: #FFFFFF;">🎥</div>
+                <div class="card" onclick="showPage('videos')">
+                    <div class="card-icon">🎥</div>
                     <h3>Contenido Multimedia</h3>
                     <p>Accede a videos educativos y material audiovisual</p>
                 </div>
                 
-                <div class="card" style="background: #FFFFFF; border-radius: 15px; padding: 2rem; box-shadow: 0 4px 20px rgba(0,0,0,0.1); transition: all 0.3s ease; cursor: pointer;">
-                    <div class="card-icon" style="width: 60px; height: 60px; border-radius: 50%; background: linear-gradient(135deg, #1E40AF 0%, #FF6B35 100%); display: flex; align-items: center; justify-content: center; margin-bottom: 1rem; font-size: 1.5rem; color: #FFFFFF;">✉️</div>
+                <div class="card" onclick="showPage('messages')">
+                    <div class="card-icon">✉️</div>
                     <h3>Comunicación</h3>
                     <p>Comunícate directamente con profesores y compañeros</p>
                 </div>
                 
-                <div class="card" style="background: #FFFFFF; border-radius: 15px; padding: 2rem; box-shadow: 0 4px 20px rgba(0,0,0,0.1); transition: all 0.3s ease; cursor: pointer;">
-                    <div class="card-icon" style="width: 60px; height: 60px; border-radius: 50%; background: linear-gradient(135deg, #1E40AF 0%, #FF6B35 100%); display: flex; align-items: center; justify-content: center; margin-bottom: 1rem; font-size: 1.5rem; color: #FFFFFF;">💳</div>
+                <div class="card" onclick="showPage('payments')">
+                    <div class="card-icon">💳</div>
                     <h3>Pagos en Línea</h3>
                     <p>Realiza pagos de matrícula y servicios de forma segura</p>
                 </div>
             </div>
         </div>
 
-        <div id="login" class="page" style="display: none;">
-            <div class="form-container" style="max-width: 500px; margin: 2rem auto; background: #FFFFFF; padding: 2rem; border-radius: 15px; box-shadow: 0 4px 20px rgba(0,0,0,0.1);">
-                <h2 style="text-align: center; margin-bottom: 2rem; color: #1E40AF;">Iniciar Sesión</h2>
-                <form id="loginForm">
-                    <div class="form-group" style="margin-bottom: 1.5rem;">
-                        <label for="userType" style="display: block; margin-bottom: 0.5rem; color: #334155; font-weight: 500;">Tipo de Usuario</label>
-                        <select id="userType" required style="width: 100%; padding: 0.8rem; border: 2px solid #E2E8F0; border-radius: 8px; font-size: 1rem; transition: all 0.3s ease;">
+        <!-- Login Page -->
+        <div id="login" class="page">
+            <div class="form-container">
+                <h2 style="text-align: center; margin-bottom: 2rem; color: var(--blue);">Iniciar Sesión</h2>
+                <form id="loginForm" action="/login" method="POST">
+                    <div class="form-group">
+                        <label for="userType">Tipo de Usuario</label>
+                        <select id="userType" name="userType" required>
                             <option value="">Seleccionar</option>
                             <option value="student">Estudiante</option>
                             <option value="teacher">Profesor</option>
@@ -83,131 +491,262 @@
                         </select>
                     </div>
                     
-                    <div class="form-group" style="margin-bottom: 1.5rem;">
-                        <label for="email" style="display: block; margin-bottom: 0.5rem; color: #334155; font-weight: 500;">Correo Electrónico</label>
-                        <input type="email" id="email" required placeholder="usuario@mindschool.com" style="width: 100%; padding: 0.8rem; border: 2px solid #E2E8F0; border-radius: 8px; font-size: 1rem; transition: all 0.3s ease;">
+                    <div class="form-group">
+                        <label for="email">Correo Electrónico</label>
+                        <input type="email" id="email" name="email" required placeholder="usuario@mindschool.com">
                     </div>
                     
-                    <div class="form-group" style="margin-bottom: 2rem;">
-                        <label for="password" style="display: block; margin-bottom: 0.5rem; color: #334155; font-weight: 500;">Contraseña</label>
-                        <input type="password" id="password" required placeholder="Tu contraseña" style="width: 100%; padding: 0.8rem; border: 2px solid #E2E8F0; border-radius: 8px; font-size: 1rem; transition: all 0.3s ease;">
+                    <div class="form-group">
+                        <label for="password">Contraseña</label>
+                        <input type="password" id="password" name="password" required placeholder="••••••••">
                     </div>
                     
-                    <button type="submit" style="width: 100%; padding: 1rem; background: linear-gradient(135deg, #1E40AF 0%, #FF6B35 100%); color: #FFFFFF; border: none; border-radius: 8px; font-size: 1.1rem; font-weight: 600; cursor: pointer; transition: all 0.3s ease;">Iniciar Sesión</button>
+                    <button type="submit" class="btn" style="width: 100%; margin-top: 1rem;">
+                        Ingresar
+                    </button>
                 </form>
+            </div>
+        </div>
+
+        <!-- Payments Page -->
+        <div id="payments" class="page">
+            <div class="form-container">
+                <h2 style="text-align: center; margin-bottom: 2rem; color: var(--blue);">Centro de Pagos</h2>
+                <form id="paymentForm" action="/payment" method="POST">
+                    <div class="form-group">
+                        <label for="paymentType">Tipo de Pago</label>
+                        <select id="paymentType" name="paymentType" required>
+                            <option value="">Seleccionar</option>
+                            <option value="tuition">Matrícula</option>
+                            <option value="monthly">Mensualidad</option>
+                            <option value="materials">Materiales</option>
+                            <option value="certification">Certificación</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="amount">Monto (MXN)</label>
+                        <input type="number" id="amount" name="amount" required placeholder="0.00" step="0.01">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="cardNumber">Número de Tarjeta</label>
+                        <input type="text" id="cardNumber" name="cardNumber" required placeholder="1234 5678 9012 3456" maxlength="19">
+                    </div>
+                    
+                    <div style="display: flex; gap: 1rem;">
+                        <div class="form-group" style="flex: 1;">
+                            <label for="expiry">Vencimiento</label>
+                            <input type="text" id="expiry" name="expiry" required placeholder="MM/AA" maxlength="5">
+                        </div>
+                        
+                        <div class="form-group" style="flex: 1;">
+                            <label for="cvv">CVV</label>
+                            <input type="text" id="cvv" name="cvv" required placeholder="123" maxlength="3">
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="btn" style="width: 100%; margin-top: 1rem;">
+                        Procesar Pago
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Forum Page -->
+        <div id="forum" class="page">
+            <div style="max-width: 800px; margin: 2rem auto; padding: 0 2rem;">
+                <h2 style="color: var(--blue); margin-bottom: 2rem;">Foro Académico</h2>
                 
-                <div style="text-align: center; margin-top: 1.5rem;">
-                    <a href="#" style="color: #1E40AF; text-decoration: none;">¿Olvidaste tu contraseña?</a>
+                <div class="form-container" style="margin-bottom: 2rem;">
+                    <h3>Nueva Publicación</h3>
+                    <form id="forumForm" action="/forum/post" method="POST">
+                        <div class="form-group">
+                            <label for="forumTitle">Título</label>
+                            <input type="text" id="forumTitle" name="title" required placeholder="Título de la discusión">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="forumCategory">Categoría</label>
+                            <select id="forumCategory" name="category" required>
+                                <option value="">Seleccionar categoría</option>
+                                <option value="general">General</option>
+                                <option value="homework">Tareas</option>
+                                <option value="projects">Proyectos</option>
+                                <option value="doubts">Dudas</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="forumContent">Contenido</label>
+                            <textarea id="forumContent" name="content" required rows="4" placeholder="Escribe tu mensaje..."></textarea>
+                        </div>
+                        
+                        <button type="submit" class="btn">Publicar</button>
+                    </form>
+                </div>
+                
+                <div id="forumPosts">
+                    <!-- Los posts se cargarán dinámicamente desde el backend -->
                 </div>
             </div>
         </div>
 
-        <div id="payments" class="page" style="display: none;">
-            <div style="max-width: 800px; margin: 2rem auto; background: #FFFFFF; padding: 2rem; border-radius: 15px; box-shadow: 0 4px 20px rgba(0,0,0,0.1);">
-                <h2 style="text-align: center; margin-bottom: 2rem; color: #1E40AF;">Sistema de Pagos</h2>
-                <p style="text-align: center; margin-bottom: 2rem;">Aquí podrás realizar todos tus pagos de forma segura</p>
-                <div style="text-align: center; padding: 2rem; background: #F1F5F9; border-radius: 10px;">
-                    <h3>🚧 En Construcción</h3>
-                    <p>El sistema de pagos estará disponible pronto</p>
+        <!-- Messages Page -->
+        <div id="messages" class="page">
+            <div style="max-width: 800px; margin: 2rem auto; padding: 0 2rem;">
+                <h2 style="color: var(--blue); margin-bottom: 2rem;">Mensajes</h2>
+                
+                <div class="form-container" style="margin-bottom: 2rem;">
+                    <h3>Nuevo Mensaje</h3>
+                    <form id="messageForm" action="/message/send" method="POST">
+                        <div class="form-group">
+                            <label for="recipient">Destinatario</label>
+                            <select id="recipient" name="recipient" required>
+                                <option value="">Seleccionar destinatario</option>
+                                <option value="teacher1">Prof. María González</option>
+                                <option value="teacher2">Prof. Carlos Rodríguez</option>
+                                <option value="student1">Ana López</option>
+                                <option value="student2">Pedro Martínez</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="messageSubject">Asunto</label>
+                            <input type="text" id="messageSubject" name="subject" required placeholder="Asunto del mensaje">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="messageContent">Mensaje</label>
+                            <textarea id="messageContent" name="content" required rows="4" placeholder="Escribe tu mensaje..."></textarea>
+                        </div>
+                        
+                        <button type="submit" class="btn">Enviar Mensaje</button>
+                    </form>
+                </div>
+                
+                <div id="messageThreads">
+                    <!-- Los mensajes se cargarán dinámicamente desde el backend -->
                 </div>
             </div>
         </div>
 
-        <div id="forum" class="page" style="display: none;">
-            <div style="max-width: 800px; margin: 2rem auto; background: #FFFFFF; padding: 2rem; border-radius: 15px; box-shadow: 0 4px 20px rgba(0,0,0,0.1);">
-                <h2 style="text-align: center; margin-bottom: 2rem; color: #1E40AF;">Foro Académico</h2>
-                <p style="text-align: center; margin-bottom: 2rem;">Participa en discusiones con tu comunidad educativa</p>
-                <div style="text-align: center; padding: 2rem; background: #F1F5F9; border-radius: 10px;">
-                    <h3>🚧 En Construcción</h3>
-                    <p>El foro estará disponible pronto</p>
+        <!-- Tasks Page -->
+        <div id="tasks" class="page">
+            <div style="max-width: 1000px; margin: 2rem auto; padding: 0 2rem;">
+                <h2 style="color: var(--blue); margin-bottom: 2rem;">Gestión de Tareas</h2>
+                
+                <div class="form-container" style="margin-bottom: 2rem;">
+                    <h3>Subir Nueva Tarea</h3>
+                    <form id="taskForm" action="/task/upload" method="POST" enctype="multipart/form-data">
+                        <div class="form-group">
+                            <label for="taskTitle">Título de la Tarea</label>
+                            <input type="text" id="taskTitle" name="title" required placeholder="Nombre de la tarea">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="taskSubject">Materia</label>
+                            <select id="taskSubject" name="subject" required>
+                                <option value="">Seleccionar materia</option>
+                                <option value="math">Matemáticas</option>
+                                <option value="spanish">Español</option>
+                                <option value="science">Ciencias</option>
+                                <option value="history">Historia</option>
+                                <option value="english">Inglés</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="taskFile">Archivo de la Tarea</label>
+                            <input type="file" id="taskFile" name="file" accept=".pdf,.doc,.docx,.txt" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="taskDescription">Descripción</label>
+                            <textarea id="taskDescription" name="description" rows="3" placeholder="Descripción adicional..."></textarea>
+                        </div>
+                        
+                        <button type="submit" class="btn">Subir Tarea</button>
+                    </form>
+                </div>
+                
+                <h3 style="margin-bottom: 1rem;">Mis Tareas</h3>
+                <div id="tasksList">
+                    <!-- Las tareas se cargarán dinámicamente desde el backend -->
                 </div>
             </div>
         </div>
 
-        <div id="messages" class="page" style="display: none;">
-            <div style="max-width: 800px; margin: 2rem auto; background: #FFFFFF; padding: 2rem; border-radius: 15px; box-shadow: 0 4px 20px rgba(0,0,0,0.1);">
-                <h2 style="text-align: center; margin-bottom: 2rem; color: #1E40AF;">Mensajes</h2>
-                <p style="text-align: center; margin-bottom: 2rem;">Comunícate con profesores y compañeros</p>
-                <div style="text-align: center; padding: 2rem; background: #F1F5F9; border-radius: 10px;">
-                    <h3>🚧 En Construcción</h3>
-                    <p>El sistema de mensajes estará disponible pronto</p>
-                </div>
-            </div>
-        </div>
-
-        <div id="tasks" class="page" style="display: none;">
-            <div style="max-width: 800px; margin: 2rem auto; background: #FFFFFF; padding: 2rem; border-radius: 15px; box-shadow: 0 4px 20px rgba(0,0,0,0.1);">
-                <h2 style="text-align: center; margin-bottom: 2rem; color: #1E40AF;">Gestión de Tareas</h2>
-                <p style="text-align: center; margin-bottom: 2rem;">Sube, califica y gestiona todas tus tareas académicas</p>
-                <div style="text-align: center; padding: 2rem; background: #F1F5F9; border-radius: 10px;">
-                    <h3>🚧 En Construcción</h3>
-                    <p>El sistema de tareas estará disponible pronto</p>
-                </div>
-            </div>
-        </div>
-
-        <div id="videos" class="page" style="display: none;">
-            <div style="max-width: 800px; margin: 2rem auto; background: #FFFFFF; padding: 2rem; border-radius: 15px; box-shadow: 0 4px 20px rgba(0,0,0,0.1);">
-                <h2 style="text-align: center; margin-bottom: 2rem; color: #1E40AF;">Contenido Multimedia</h2>
-                <p style="text-align: center; margin-bottom: 2rem;">Accede a videos educativos y material audiovisual</p>
-                <div style="text-align: center; padding: 2rem; background: #F1F5F9; border-radius: 10px;">
-                    <h3>🚧 En Construcción</h3>
-                    <p>La biblioteca de videos estará disponible pronto</p>
+        <!-- Videos Page -->
+        <div id="videos" class="page">
+            <div style="max-width: 1200px; margin: 2rem auto; padding: 0 2rem;">
+                <h2 style="color: var(--blue); margin-bottom: 2rem;">Biblioteca de Videos</h2>
+                
+                <div class="video-grid" id="videoGrid">
+                    <!-- Los videos se cargarán dinámicamente desde el backend -->
                 </div>
             </div>
         </div>
     </main>
 
+    <!-- Notification -->
+    <div id="notification" class="notification">
+        <span id="notificationText"></span>
+    </div>
+
     <script>
-        // Navegación entre páginas
-        document.querySelectorAll('.nav-item').forEach(item => {
-            item.addEventListener('click', function(e) {
-                e.preventDefault();
-                
-                // Remover clase active de todos los elementos
-                document.querySelectorAll('.nav-item').forEach(nav => nav.classList.remove('active'));
-                this.classList.add('active');
-                
-                // Ocultar todas las páginas
-                document.querySelectorAll('.page').forEach(page => page.style.display = 'none');
-                
-                // Mostrar la página correspondiente
-                const targetId = this.getAttribute('href').substring(1);
-                document.getElementById(targetId).style.display = 'block';
-            });
-        });
+        // Variables globales
+        let currentUser = null;
 
-        // Manejo del formulario de login
-        document.getElementById('loginForm').addEventListener('submit', function(e) {
-            e.preventDefault();
+        // Función para mostrar páginas
+        function showPage(pageId) {
+            // Ocultar todas las páginas
+            const pages = document.querySelectorAll('.page');
+            pages.forEach(page => page.classList.remove('active'));
             
-            const userType = document.getElementById('userType').value;
-            const email = document.getElementById('email').value;
-            const password = document.getElementById('password').value;
+            // Mostrar página seleccionada
+            document.getElementById(pageId).classList.add('active');
             
-            if (!userType || !email || !password) {
-                alert('Por favor completa todos los campos');
-                return;
+            // Actualizar navegación
+            const navItems = document.querySelectorAll('.nav-item');
+            navItems.forEach(item => item.classList.remove('active'));
+            event.target.classList.add('active');
+        }
+
+        // Función para mostrar notificaciones
+        function showNotification(message, type = 'success') {
+            const notification = document.getElementById('notification');
+            const notificationText = document.getElementById('notificationText');
+            
+            notificationText.textContent = message;
+            notification.classList.add('show');
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 3000);
+        }
+
+        // Formateo automático de campos
+        document.getElementById('cardNumber').addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\s/g, '');
+            let formattedValue = value.replace(/(.{4})/g, '$1 ');
+            if (formattedValue.endsWith(' ')) {
+                formattedValue = formattedValue.slice(0, -1);
             }
-            
-            // Simular login exitoso
-            alert(`¡Bienvenido ${userType}! Has iniciado sesión correctamente.`);
-            
-            // Limpiar formulario
-            this.reset();
+            e.target.value = formattedValue;
         });
 
-        // Efectos hover en las tarjetas
-        document.querySelectorAll('.card').forEach(card => {
-            card.addEventListener('mouseenter', function() {
-                this.style.transform = 'translateY(-5px)';
-                this.style.boxShadow = '0 8px 30px rgba(0,0,0,0.15)';
-            });
-            
-            card.addEventListener('mouseleave', function() {
-                this.style.transform = 'translateY(0)';
-                this.style.boxShadow = '0 4px 20px rgba(0,0,0,0.1)';
-            });
+        document.getElementById('expiry').addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\D/g, '');
+            if (value.length >= 2) {
+                value = value.substring(0, 2) + '/' + value.substring(2, 4);
+            }
+            e.target.value = value;
+        });
+
+        // Inicialización
+        document.addEventListener('DOMContentLoaded', function() {
+            showNotification('¡Bienvenido a MindSchool!');
         });
     </script>
 </body>
