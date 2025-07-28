@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MindSchool - Academia Digital</title>
+</head>
+<body style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #F8FAFC; color: #334155; overflow-x: hidden;">
+    <header class="header" style="background: linear-gradient(135deg, #1E40AF 0%, #FF6B35 100%); padding: 1rem 0; box-shadow: 0 4px 20px rgba(0,0,0,0.1); position: fixed; width: 100%; top: 0; z-index: 1000;">
+        <nav class="nav-container" style="max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; padding: 0 2rem;">
+            <div class="logo" style="color: #FFFFFF; font-size: 2rem; font-weight: bold;">🎓 MindSchool</div>
+            <div class="nav-menu" style="display: flex; gap: 2rem;">
+                <a href="#home" class="nav-item active" style="color: #FFFFFF; text-decoration: none; padding: 0.5rem 1rem; border-radius: 25px; transition: all 0.3s ease; cursor: pointer; background: rgba(255,255,255,0.2);">Inicio</a>
+                <a href="#login" class="nav-item" style="color: #FFFFFF; text-decoration: none; padding: 0.5rem 1rem; border-radius: 25px; transition: all 0.3s ease; cursor: pointer;">Login</a>
+                <a href="#payments" class="nav-item" style="color: #FFFFFF; text-decoration: none; padding: 0.5rem 1rem; border-radius: 25px; transition: all 0.3s ease; cursor: pointer;">Pagos</a>
+                <a href="#forum" class="nav-item" style="color: #FFFFFF; text-decoration: none; padding: 0.5rem 1rem; border-radius: 25px; transition: all 0.3s ease; cursor: pointer;">Foro</a>
+                <a href="#messages" class="nav-item" style="color: #FFFFFF; text-decoration: none; padding: 0.5rem 1rem; border-radius: 25px; transition: all 0.3s ease; cursor: pointer;">Mensajes</a>
+                <a href="#tasks" class="nav-item" style="color: #FFFFFF; text-decoration: none; padding: 0.5rem 1rem; border-radius: 25px; transition: all 0.3s ease; cursor: pointer;">Tareas</a>
+                <a href="#videos" class="nav-item" style="color: #FFFFFF; text-decoration: none; padding: 0.5rem 1rem; border-radius: 25px; transition: all 0.3s ease; cursor: pointer;">Videos</a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="main-container" style="margin-top: 80px; min-height: calc(100vh - 80px);">
+        <div id="home" class="page" style="display: block;">
+            <section class="hero" style="background: linear-gradient(135deg, #1E40AF 0%, #FF6B35 100%); color: #FFFFFF; text-align: center; padding: 4rem 2rem; position: relative; overflow: hidden;">
+                <div class="hero-content" style="position: relative; z-index: 2;">
+                    <h1 style="font-size: 3.5rem; margin-bottom: 1rem;">Bienvenido a MindSchool</h1>
+                    <p style="font-size: 1.3rem; margin-bottom: 2rem;">La plataforma educativa que transforma tu aprendizaje</p>
+                </div>
+            </section>
+            
+            <div class="cards-container" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; padding: 2rem; max-width: 1200px; margin: 0 auto;">
+                <div class="card" style="background: #FFFFFF; border-radius: 15px; padding: 2rem; box-shadow: 0 4px 20px rgba(0,0,0,0.1); transition: all 0.3s ease; cursor: pointer;">
+                    <div class="card-icon" style="width: 60px; height: 60px; border-radius: 50%; background: linear-gradient(135deg, #1E40AF 0%, #FF6B35 100%); display: flex; align-items: center; justify-content: center; margin-bottom: 1rem; font-size: 1.5rem; color: #FFFFFF;">🔐</div>
+                    <h3>Acceso Seguro</h3>
+                    <p>Inicia sesión de forma segura con tu cuenta de estudiante o profesor</p>
+                </div>
+                
+                <div class="card" style="background: #FFFFFF; border-radius: 15px; padding: 2rem; box-shadow: 0 4px 20px rgba(0,0,0,0.1); transition: all 0.3s ease; cursor: pointer;">
+                    <div class="card-icon" style="width: 60px; height: 60px; border-radius: 50%; background: linear-gradient(135deg, #1E40AF 0%, #FF6B35 100%); display: flex; align-items: center; justify-content: center; margin-bottom: 1rem; font-size: 1.5rem; color: #FFFFFF;">📚</div>
+                    <h3>Gestión de Tareas</h3>
+                    <p>Sube, califica y gestiona todas tus tareas académicas</p>
+                </div>
+                
+                <div class="card" style="background: #FFFFFF; border-radius: 15px; padding: 2rem; box-shadow: 0 4px 20px rgba(0,0,0,0.1); transition: all 0.3s ease; cursor: pointer;">
+                    <div class="card-icon" style="width: 60px; height: 60px; border-radius: 50%; background: linear-gradient(135deg, #1E40AF 0%, #FF6B35 100%); display: flex; align-items: center; justify-content: center; margin-bottom: 1rem; font-size: 1.5rem; color: #FFFFFF;">💬</div>
+                    <h3>Foro Académico</h3>
+                    <p>Participa en discusiones y colabora con tu comunidad</p>
+                </div>
+                
+                <div class="card" style="background: #FFFFFF; border-radius: 15px; padding: 2rem; box-shadow: 0 4px 20px rgba(0,0,0,0.1); transition: all 0.3s ease; cursor: pointer;">
+                    <div class="card-icon" style="width: 60px; height: 60px; border-radius: 50%; background: linear-gradient(135deg, #1E40AF 0%, #FF6B35 100%); display: flex; align-items: center; justify-content: center; margin-bottom: 1rem; font-size: 1.5rem; color: #FFFFFF;">🎥</div>
+                    <h3>Contenido Multimedia</h3>
+                    <p>Accede a videos educativos y material audiovisual</p>
+                </div>
+                
+                <div class="card" style="background: #FFFFFF; border-radius: 15px; padding: 2rem; box-shadow: 0 4px 20px rgba(0,0,0,0.1); transition: all 0.3s ease; cursor: pointer;">
+                    <div class="card-icon" style="width: 60px; height: 60px; border-radius: 50%; background: linear-gradient(135deg, #1E40AF 0%, #FF6B35 100%); display: flex; align-items: center; justify-content: center; margin-bottom: 1rem; font-size: 1.5rem; color: #FFFFFF;">✉️</div>
+                    <h3>Comunicación</h3>
+                    <p>Comunícate directamente con profesores y compañeros</p>
+                </div>
+                
+                <div class="card" style="background: #FFFFFF; border-radius: 15px; padding: 2rem; box-shadow: 0 4px 20px rgba(0,0,0,0.1); transition: all 0.3s ease; cursor: pointer;">
+                    <div class="card-icon" style="width: 60px; height: 60px; border-radius: 50%; background: linear-gradient(135deg, #1E40AF 0%, #FF6B35 100%); display: flex; align-items: center; justify-content: center; margin-bottom: 1rem; font-size: 1.5rem; color: #FFFFFF;">💳</div>
+                    <h3>Pagos en Línea</h3>
+                    <p>Realiza pagos de matrícula y servicios de forma segura</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="login" class="page" style="display: none;">
+            <div class="form-container" style="max-width: 500px; margin: 2rem auto; background: #FFFFFF; padding: 2rem; border-radius: 15px; box-shadow: 0 4px 20px rgba(0,0,0,0.1);">
+                <h2 style="text-align: center; margin-bottom: 2rem; color: #1E40AF;">Iniciar Sesión</h2>
+                <form id="loginForm">
+                    <div class="form-group" style="margin-bottom: 1.5rem;">
+                        <label for="userType" style="display: block; margin-bottom: 0.5rem; color: #334155; font-weight: 500;">Tipo de Usuario</label>
+                        <select id="userType" required style="width: 100%; padding: 0.8rem; border: 2px solid #E2E8F0; border-radius: 8px; font-size: 1rem; transition: all 0.3s ease;">
+                            <option value="">Seleccionar</option>
+                            <option value="student">Estudiante</option>
+                            <option value="teacher">Profesor</option>
+                            <option value="admin">Administrador</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group" style="margin-bottom: 1.5rem;">
+                        <label for="email" style="display: block; margin-bottom: 0.5rem; color: #334155; font-weight: 500;">Correo Electrónico</label>
+                        <input type="email" id="email" required placeholder="usuario@mindschool.com" style="width: 100%; padding: 0.8rem; border: 2px solid #E2E8F0; border-radius: 8px; font-size: 1rem; transition: all 0.3s ease;">
+                    </div>
+                    
+                    <div class="form-group" style="margin-bottom: 2rem;">
+                        <label for="password" style="display: block; margin-bottom: 0.5rem; color: #334155; font-weight: 500;">Contraseña</label>
+                        <input type="password" id="password" required placeholder="Tu contraseña" style="width: 100%; padding: 0.8rem; border: 2px solid #E2E8F0; border-radius: 8px; font-size: 1rem; transition: all 0.3s ease;">
+                    </div>
+                    
+                    <button type="submit" style="width: 100%; padding: 1rem; background: linear-gradient(135deg, #1E40AF 0%, #FF6B35 100%); color: #FFFFFF; border: none; border-radius: 8px; font-size: 1.1rem; font-weight: 600; cursor: pointer; transition: all 0.3s ease;">Iniciar Sesión</button>
+                </form>
+                
+                <div style="text-align: center; margin-top: 1.5rem;">
+                    <a href="#" style="color: #1E40AF; text-decoration: none;">¿Olvidaste tu contraseña?</a>
+                </div>
+            </div>
+        </div>
+
+        <div id="payments" class="page" style="display: none;">
+            <div style="max-width: 800px; margin: 2rem auto; background: #FFFFFF; padding: 2rem; border-radius: 15px; box-shadow: 0 4px 20px rgba(0,0,0,0.1);">
+                <h2 style="text-align: center; margin-bottom: 2rem; color: #1E40AF;">Sistema de Pagos</h2>
+                <p style="text-align: center; margin-bottom: 2rem;">Aquí podrás realizar todos tus pagos de forma segura</p>
+                <div style="text-align: center; padding: 2rem; background: #F1F5F9; border-radius: 10px;">
+                    <h3>🚧 En Construcción</h3>
+                    <p>El sistema de pagos estará disponible pronto</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="forum" class="page" style="display: none;">
+            <div style="max-width: 800px; margin: 2rem auto; background: #FFFFFF; padding: 2rem; border-radius: 15px; box-shadow: 0 4px 20px rgba(0,0,0,0.1);">
+                <h2 style="text-align: center; margin-bottom: 2rem; color: #1E40AF;">Foro Académico</h2>
+                <p style="text-align: center; margin-bottom: 2rem;">Participa en discusiones con tu comunidad educativa</p>
+                <div style="text-align: center; padding: 2rem; background: #F1F5F9; border-radius: 10px;">
+                    <h3>🚧 En Construcción</h3>
+                    <p>El foro estará disponible pronto</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="messages" class="page" style="display: none;">
+            <div style="max-width: 800px; margin: 2rem auto; background: #FFFFFF; padding: 2rem; border-radius: 15px; box-shadow: 0 4px 20px rgba(0,0,0,0.1);">
+                <h2 style="text-align: center; margin-bottom: 2rem; color: #1E40AF;">Mensajes</h2>
+                <p style="text-align: center; margin-bottom: 2rem;">Comunícate con profesores y compañeros</p>
+                <div style="text-align: center; padding: 2rem; background: #F1F5F9; border-radius: 10px;">
+                    <h3>🚧 En Construcción</h3>
+                    <p>El sistema de mensajes estará disponible pronto</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="tasks" class="page" style="display: none;">
+            <div style="max-width: 800px; margin: 2rem auto; background: #FFFFFF; padding: 2rem; border-radius: 15px; box-shadow: 0 4px 20px rgba(0,0,0,0.1);">
+                <h2 style="text-align: center; margin-bottom: 2rem; color: #1E40AF;">Gestión de Tareas</h2>
+                <p style="text-align: center; margin-bottom: 2rem;">Sube, califica y gestiona todas tus tareas académicas</p>
+                <div style="text-align: center; padding: 2rem; background: #F1F5F9; border-radius: 10px;">
+                    <h3>🚧 En Construcción</h3>
+                    <p>El sistema de tareas estará disponible pronto</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="videos" class="page" style="display: none;">
+            <div style="max-width: 800px; margin: 2rem auto; background: #FFFFFF; padding: 2rem; border-radius: 15px; box-shadow: 0 4px 20px rgba(0,0,0,0.1);">
+                <h2 style="text-align: center; margin-bottom: 2rem; color: #1E40AF;">Contenido Multimedia</h2>
+                <p style="text-align: center; margin-bottom: 2rem;">Accede a videos educativos y material audiovisual</p>
+                <div style="text-align: center; padding: 2rem; background: #F1F5F9; border-radius: 10px;">
+                    <h3>🚧 En Construcción</h3>
+                    <p>La biblioteca de videos estará disponible pronto</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Navegación entre páginas
+        document.querySelectorAll('.nav-item').forEach(item => {
+            item.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                // Remover clase active de todos los elementos
+                document.querySelectorAll('.nav-item').forEach(nav => nav.classList.remove('active'));
+                this.classList.add('active');
+                
+                // Ocultar todas las páginas
+                document.querySelectorAll('.page').forEach(page => page.style.display = 'none');
+                
+                // Mostrar la página correspondiente
+                const targetId = this.getAttribute('href').substring(1);
+                document.getElementById(targetId).style.display = 'block';
+            });
+        });
+
+        // Manejo del formulario de login
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const userType = document.getElementById('userType').value;
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            
+            if (!userType || !email || !password) {
+                alert('Por favor completa todos los campos');
+                return;
+            }
+            
+            // Simular login exitoso
+            alert(`¡Bienvenido ${userType}! Has iniciado sesión correctamente.`);
+            
+            // Limpiar formulario
+            this.reset();
+        });
+
+        // Efectos hover en las tarjetas
+        document.querySelectorAll('.card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-5px)';
+                this.style.boxShadow = '0 8px 30px rgba(0,0,0,0.15)';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0)';
+                this.style.boxShadow = '0 4px 20px rgba(0,0,0,0.1)';
+            });
+        });
+    </script>
+</body>
+</html> 
