@@ -3,613 +3,157 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MindSchool - Academia Digital</title>
+    <title>MindSchool - Plataforma Educativa</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <!-- Header -->
-    <header class="header">
-        <nav class="nav-container">
-            <div class="logo">🎓 MindSchool</div>
-            <div class="nav-menu">
-                <a href="#" class="nav-item active" onclick="handleProtectedNav(event, 'home')">Inicio</a>
-                <a href="#" class="nav-item" onclick="handleProtectedNav(event, 'login')">Login</a>
-                <a href="#" class="nav-item" onclick="handleProtectedNav(event, 'payments')">Pagos</a>
-                <a href="#" class="nav-item" onclick="handleProtectedNav(event, 'forum')">Foro</a>
-                <a href="#" class="nav-item" onclick="handleProtectedNav(event, 'messages')">Mensajes</a>
-                <a href="#" class="nav-item" onclick="handleProtectedNav(event, 'tasks')">Tareas</a>
-                <a href="#" class="nav-item" onclick="handleProtectedNav(event, 'videos')">Videos</a>
+    <!-- Vista de Bienvenida -->
+    <div id="welcomeView" class="welcome-container">
+        <div class="welcome-header">
+            <div class="logo">
+                <span class="logo-icon">🎓</span>
+                <h1>MindSchool</h1>
             </div>
-        </nav>
-    </header>
-
-    <!-- Modal para requerir login -->
-    <div id="loginModal" class="modal">
-        <div class="modal-content">
-            <h3>🔒 Inicia sesión</h3>
-            <p>Debes iniciar sesión para acceder a esta sección.</p>
-            <button class="btn" onclick="closeLoginModal()">Cerrar</button>
+            <p class="welcome-subtitle">Plataforma Educativa Inteligente</p>
         </div>
-    </div>
 
-    <!-- Modal de registro -->
-    <div id="registerModal" class="modal">
-        <div class="modal-content">
-            <h3>📝 Crear cuenta</h3>
-            <form id="registerForm">
-                <div class="form-group">
-                    <label for="registerNames">Nombre(s)</label>
-                    <input type="text" id="registerNames" required>
-                </div>
-                <div class="form-group">
-                    <label for="registerLastNames">Apellidos</label>
-                    <input type="text" id="registerLastNames" required>
-                </div>
-                <div class="form-group">
-                    <label for="registerGrade">Semestre</label>
-                    <select id="registerGrade" required>
-                        <option value="">Seleccionar Semestre</option>
-                        <option value="1">1°</option>
-                        <option value="2">2°</option>
-                        <option value="3">3°</option>
-                        <option value="4">4°</option>
-                        <option value="5">5°</option>
-                        <option value="6">6°</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="registerGroup">Grupo</label>
-                    <select id="registerGroup" required>
-                        <option value="">Seleccionar grupo</option>
-                        <option value="A">A</option>
-                        <option value="B">B</option>
-                        <option value="C">C</option>
-                        <option value="D">D</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="registerType">Tipo de usuario</label>
-                    <select id="registerType" required>
-                        <option value="">Selecciona una opción</option>
-                        <option value="student">Alumno</option>
-                        <option value="teacher">Docente</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="registerEmail">Correo Electrónico</label>
-                    <input type="email" id="registerEmail" required>
-                </div>
-                <div class="form-group">
-                    <label for="registerPassword">Contraseña</label>
-                    <input type="password" id="registerPassword" required>
-                </div>
-                <button type="submit" class="btn">Registrar</button>
-                <button type="button" class="btn cancel" onclick="closeRegisterModal()">Cancelar</button>
-            </form>
-        </div>
-    </div>
-
-    <!-- Modal para subir video -->
-    <div id="uploadVideoModal" class="modal">
-        <div class="modal-content">
-            <h3>🎥 Subir Video por URL</h3>
-            <form id="uploadVideoForm">
-                <div class="form-group">
-                    <label for="videoUrl">URL del Video:</label>
-                    <input type="url" id="videoUrl" required placeholder="Ej: https://www.youtube.com/watch?v=dQw4w9WgXcQ">
-                </div>
-                <div class="form-group">
-                    <label for="videoTitle">Título del Video:</label>
-                    <input type="text" id="videoTitle" required placeholder="Un título para tu video">
-                </div>
-                <div class="form-group">
-                    <label for="videoSubject">Materia:</label>
-                    <select id="videoSubject" required>
-                        <option value="">Seleccionar materia</option>
-                        <option value="math">Matemáticas</option>
-                        <option value="spanish">Español</option>
-                        <option value="science">Ciencias</option>
-                        <option value="history">Historia</option>
-                        <option value="english">Inglés</option>
-                        <option value="geography">Geografía</option>
-                        <option value="art">Arte</option>
-                        <option value="music">Música</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="videoDuration">Duración (minutos):</label>
-                    <input type="number" id="videoDuration" required placeholder="45" min="1" max="300">
-                </div>
-                <div class="form-group">
-                    <label for="videoLevel">Nivel:</label>
-                    <select id="videoLevel" required>
-                        <option value="">Seleccionar nivel</option>
-                        <option value="basic">Básico</option>
-                        <option value="intermediate">Intermedio</option>
-                        <option value="advanced">Avanzado</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="videoDescription">Descripción:</label>
-                    <textarea id="videoDescription" rows="3" placeholder="Una breve descripción del video"></textarea>
-                </div>
-                <button type="submit" class="btn">Subir Video</button>
-                <button type="button" class="btn cancel" onclick="closeUploadVideoModal()">Cancelar</button>
-            </form>
-            <div id="videoMessage" class="message"></div>
-        </div>
-    </div>
-
-    <!-- Modal para subir imagen -->
-    <div id="uploadImageModal" class="modal">
-        <div class="modal-content">
-            <h3>🖼️ Subir Imagen</h3>
-            <form id="uploadImageForm">
-                <div class="form-group">
-                    <label for="imageFile">Archivo de Imagen:</label>
-                    <input type="file" id="imageFile" accept="image/*" required>
-                </div>
-                <div class="form-group">
-                    <label for="imageTitle">Título de la Imagen:</label>
-                    <input type="text" id="imageTitle" required placeholder="Un título para tu imagen">
-                </div>
-                <div class="form-group">
-                    <label for="imageSubject">Materia:</label>
-                    <select id="imageSubject" required>
-                        <option value="">Seleccionar materia</option>
-                        <option value="math">Matemáticas</option>
-                        <option value="spanish">Español</option>
-                        <option value="science">Ciencias</option>
-                        <option value="history">Historia</option>
-                        <option value="english">Inglés</option>
-                        <option value="geography">Geografía</option>
-                        <option value="art">Arte</option>
-                        <option value="music">Música</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="imageCategory">Categoría:</label>
-                    <select id="imageCategory" required>
-                        <option value="">Seleccionar categoría</option>
-                        <option value="diagram">Diagrama</option>
-                        <option value="chart">Gráfico</option>
-                        <option value="photo">Fotografía</option>
-                        <option value="illustration">Ilustración</option>
-                        <option value="infographic">Infografía</option>
-                        <option value="other">Otro</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="imageDescription">Descripción:</label>
-                    <textarea id="imageDescription" rows="3" placeholder="Una breve descripción de la imagen"></textarea>
-                </div>
-                <button type="submit" class="btn">Subir Imagen</button>
-                <button type="button" class="btn cancel" onclick="closeUploadImageModal()">Cancelar</button>
-            </form>
-            <div id="imageMessage" class="message"></div>
-        </div>
-    </div>
-
-    <!-- Main Container -->
-    <main class="main-container">
-        <!-- Home Page -->
-        <div id="home" class="page active">
-            <section class="hero">
-                <div class="hero-content">
-                    <h1>Bienvenido a MindSchool</h1>
-                    <p>La plataforma educativa que transforma tu aprendizaje</p>
-                </div>
-            </section>
-            
-            <div class="cards-container">
-                <div class="card" onclick="handleProtectedNav(event, 'login')">
-                    <div class="card-icon">🔐</div>
-                    <h3>Acceso Seguro</h3>
-                    <p>Inicia sesión de forma segura con tu cuenta de estudiante o profesor</p>
-                </div>
-                
-                <div class="card" onclick="handleProtectedNav(event, 'tasks')">
-                    <div class="card-icon">📚</div>
-                    <h3>Gestión de Tareas</h3>
-                    <p>Sube, califica y gestiona todas tus tareas académicas</p>
-                </div>
-                
-                <div class="card" onclick="handleProtectedNav(event, 'forum')">
-                    <div class="card-icon">💬</div>
-                    <h3>Foro Académico</h3>
-                    <p>Participa en discusiones y colabora con tu comunidad</p>
-                </div>
-                
-                <div class="card" onclick="handleProtectedNav(event, 'videos')">
-                    <div class="card-icon">🎥</div>
-                    <h3>Contenido Multimedia</h3>
-                    <p>Accede a videos educativos y material audiovisual</p>
-                </div>
-                
-                <div class="card" onclick="handleProtectedNav(event, 'messages')">
-                    <div class="card-icon">✉️</div>
-                    <h3>Comunicación</h3>
-                    <p>Comunícate directamente con profesores y compañeros</p>
-                </div>
-                
-                <div class="card" onclick="handleProtectedNav(event, 'payments')">
-                    <div class="card-icon">💳</div>
-                    <h3>Pagos en Línea</h3>
-                    <p>Realiza pagos de matrícula y servicios de forma segura</p>
-                </div>
+        <div class="login-container">
+            <div class="login-tabs">
+                <button class="tab-btn active" onclick="switchTab('student')">👨‍🎓 Alumno</button>
+                <button class="tab-btn" onclick="switchTab('teacher')">👨‍🏫 Profesor</button>
             </div>
-        </div>
 
-        <!-- Login Page -->
-        <div id="login" class="page">
-            <div class="form-container">
-                <h2 style="text-align: center; margin-bottom: 2rem; color: var(--blue);">Iniciar Sesión</h2>
-                <form id="loginForm">
+            <!-- Login de Alumno -->
+            <div id="studentLogin" class="login-form active">
+                <h2>Iniciar Sesión - Alumno</h2>
+                <form id="studentLoginForm">
                     <div class="form-group">
-                        <label for="userType">Tipo de Usuario</label>
-                        <select id="userType" required>
-                            <option value="">Seleccionar</option>
-                            <option value="student">Estudiante</option>
-                            <option value="teacher">Profesor</option>
-                            <option value="admin">Administrador</option>
+                        <label for="studentEmail">Correo Electrónico</label>
+                        <input type="email" id="studentEmail" required placeholder="alumno@mindschool.com">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="studentPassword">Contraseña</label>
+                        <input type="password" id="studentPassword" required placeholder="••••••••">
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary">Ingresar como Alumno</button>
+                </form>
+                
+                <div class="login-footer">
+                    <p>¿No tienes cuenta? <a href="#" onclick="showRegisterForm()">Regístrate aquí</a></p>
+                </div>
+            </div>
+
+            <!-- Login de Profesor -->
+            <div id="teacherLogin" class="login-form">
+                <h2>Iniciar Sesión - Profesor</h2>
+                <form id="teacherLoginForm">
+                    <div class="form-group">
+                        <label for="teacherEmail">Correo Electrónico</label>
+                        <input type="email" id="teacherEmail" required placeholder="profesor@mindschool.com">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="teacherPassword">Contraseña</label>
+                        <input type="password" id="teacherPassword" required placeholder="••••••••">
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary">Ingresar como Profesor</button>
+                </form>
+            </div>
+
+            <!-- Formulario de Registro -->
+            <div id="registerForm" class="login-form" style="display: none;">
+                <h2>Registro de Alumno</h2>
+                <form id="studentRegisterForm">
+                    <div class="form-group">
+                        <label for="regNames">Nombre(s)</label>
+                        <input type="text" id="regNames" required placeholder="Juan Carlos">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="regLastNames">Apellidos</label>
+                        <input type="text" id="regLastNames" required placeholder="Pérez García">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="regSemester">Semestre</label>
+                        <select id="regSemester" required>
+                            <option value="">Seleccionar Semestre</option>
+                            <option value="1">1° Semestre</option>
+                            <option value="2">2° Semestre</option>
+                            <option value="3">3° Semestre</option>
+                            <option value="4">4° Semestre</option>
+                            <option value="5">5° Semestre</option>
+                            <option value="6">6° Semestre</option>
+                            <option value="7">7° Semestre</option>
+                            <option value="8">8° Semestre</option>
                         </select>
                     </div>
                     
                     <div class="form-group">
-                        <label for="email">Correo Electrónico</label>
-                        <input type="email" id="email" required placeholder="usuario@mindschool.com">
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="password">Contraseña</label>
-                        <input type="password" id="password" required placeholder="••••••••">
-                    </div>
-                    
-                    <button type="submit" class="btn" style="width: 100%; margin-top: 1rem;">
-                        Ingresar
-                    </button>
-                    <div style="text-align:center; margin-top:1rem;">
-                        <span style="color:var(--blue); font-weight:bold; cursor:pointer; text-decoration:underline;" onclick="openRegisterModal()">Crear cuenta</span>
-                    </div>
-                </form>
-            </div>
-        </div>
-
-        <!-- Payments Page -->
-        <div id="payments" class="page">
-            <div class="form-container">
-                <h2 style="text-align: center; margin-bottom: 2rem; color: var(--blue);">Centro de Pagos</h2>
-                <form id="paymentForm">
-                    <div class="form-group">
-                        <label for="paymentType">Tipo de Pago</label>
-                        <select id="paymentType" required>
-                            <option value="">Seleccionar</option>
-                            <option value="tuition">Matrícula</option>
-                            <option value="monthly">Mensualidad</option>
-                            <option value="materials">Materiales</option>
-                            <option value="certification">Certificación</option>
+                        <label for="regGroup">Grupo</label>
+                        <select id="regGroup" required>
+                            <option value="">Seleccionar Grupo</option>
+                            <option value="A">Grupo A</option>
+                            <option value="B">Grupo B</option>
+                            <option value="C">Grupo C</option>
+                            <option value="D">Grupo D</option>
                         </select>
                     </div>
                     
                     <div class="form-group">
-                        <label for="amount">Monto (MXN)</label>
-                        <input type="number" id="amount" required placeholder="0.00" step="0.01">
+                        <label for="regEmail">Correo Electrónico</label>
+                        <input type="email" id="regEmail" required placeholder="alumno@mindschool.com">
                     </div>
                     
                     <div class="form-group">
-                        <label for="cardNumber">Número de Tarjeta</label>
-                        <input type="text" id="cardNumber" required placeholder="1234 5678 9012 3456" maxlength="19">
+                        <label for="regPassword">Contraseña</label>
+                        <input type="password" id="regPassword" required placeholder="Mínimo 6 caracteres">
                     </div>
                     
-                    <div style="display: flex; gap: 1rem;">
-                        <div class="form-group" style="flex: 1;">
-                            <label for="expiry">Vencimiento</label>
-                            <input type="text" id="expiry" required placeholder="MM/AA" maxlength="5">
-                        </div>
-                        
-                        <div class="form-group" style="flex: 1;">
-                            <label for="cvv">CVV</label>
-                            <input type="text" id="cvv" required placeholder="123" maxlength="3">
-                        </div>
+                    <div class="form-group">
+                        <label for="regConfirmPassword">Confirmar Contraseña</label>
+                        <input type="password" id="regConfirmPassword" required placeholder="Repite tu contraseña">
                     </div>
                     
-                    <button type="submit" class="btn" style="width: 100%; margin-top: 1rem;">
-                        Procesar Pago
-                    </button>
+                    <button type="submit" class="btn btn-primary">Registrarse</button>
+                    <button type="button" class="btn btn-secondary" onclick="showLoginForm()">Volver al Login</button>
                 </form>
             </div>
         </div>
 
-        <!-- Forum Page -->
-        <div id="forum" class="page">
-            <div style="max-width: 800px; margin: 2rem auto; padding: 0 2rem;">
-                <h2 style="color: var(--blue); margin-bottom: 2rem;">Foro Académico</h2>
-                
-                <div class="form-container" style="margin-bottom: 2rem;">
-                    <h3>Nueva Publicación</h3>
-                    <form id="forumForm">
-                        <div class="form-group">
-                            <label for="forumTitle">Título</label>
-                            <input type="text" id="forumTitle" required placeholder="Título de la discusión">
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="forumCategory">Categoría</label>
-                            <select id="forumCategory" required>
-                                <option value="">Seleccionar categoría</option>
-                                <option value="general">General</option>
-                                <option value="homework">Tareas</option>
-                                <option value="projects">Proyectos</option>
-                                <option value="doubts">Dudas</option>
-                            </select>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="forumContent">Contenido</label>
-                            <textarea id="forumContent" required rows="4" placeholder="Escribe tu mensaje..."></textarea>
-                        </div>
-                        
-                        <button type="submit" class="btn">Publicar</button>
-                    </form>
-                </div>
-                
-                <div id="forumPosts">
-                    <div class="forum-post">
-                        <div class="message-header">
-                            <div style="display: flex; align-items: center; gap: 1rem;">
-                                <div class="avatar">JD</div>
-                                <div>
-                                    <strong>Juan Pérez</strong>
-                                    <div style="font-size: 0.8rem; color: #64748B;">Hace 2 horas</div>
-                                </div>
-                            </div>
-                            <span style="background: #E0F2FE; color: #0284C7; padding: 0.2rem 0.8rem; border-radius: 15px; font-size: 0.8rem;">Dudas</span>
-                        </div>
-                        <h4>¿Cómo resolver ecuaciones cuadráticas?</h4>
-                        <p>Necesito ayuda con el método de factorización. ¿Alguien puede explicarme el proceso paso a paso?</p>
-                    </div>
-                    
-                    <div class="forum-post">
-                        <div class="message-header">
-                            <div style="display: flex; align-items: center; gap: 1rem;">
-                                <div class="avatar">MG</div>
-                                <div>
-                                    <strong>Prof. María González</strong>
-                                    <div style="font-size: 0.8rem; color: #64748B;">Hace 1 día</div>
-                                </div>
-                            </div>
-                            <span style="background: #FEF3C7; color: #92400E; padding: 0.2rem 0.8rem; border-radius: 15px; font-size: 0.8rem;">Tareas</span>
-                        </div>
-                        <h4>Recordatorio: Entrega de ensayos</h4>
-                        <p>Recuerden que el ensayo sobre literatura contemporánea debe entregarse antes del viernes. Revisen la rúbrica en la sección de tareas.</p>
-                    </div>
-                </div>
-            </div>
+        <div class="welcome-footer">
+            <p>&copy; 2025 MindSchool. Todos los derechos reservados.</p>
         </div>
-
-        <!-- Messages Page -->
-        <div id="messages" class="page">
-            <div style="max-width: 800px; margin: 2rem auto; padding: 0 2rem;">
-                <h2 style="color: var(--blue); margin-bottom: 2rem;">Mensajes</h2>
-                
-                <div class="form-container" style="margin-bottom: 2rem;">
-                    <h3>Nuevo Mensaje</h3>
-                    <form id="messageForm">
-                        <div class="form-group">
-                            <label for="recipient">Destinatario</label>
-                            <select id="recipient" required>
-                                <option value="">Seleccionar destinatario</option>
-                                <option value="teacher1">Prof. María González</option>
-                                <option value="teacher2">Prof. Carlos Rodríguez</option>
-                                <option value="student1">Ana López</option>
-                                <option value="student2">Pedro Martínez</option>
-                            </select>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="messageSubject">Asunto</label>
-                            <input type="text" id="messageSubject" required placeholder="Asunto del mensaje">
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="messageContent">Mensaje</label>
-                            <textarea id="messageContent" required rows="4" placeholder="Escribe tu mensaje..."></textarea>
-                        </div>
-                        
-                        <button type="submit" class="btn">Enviar Mensaje</button>
-                    </form>
-                </div>
-                
-                <div id="messageThreads">
-                    <div class="message-thread">
-                        <div class="message-header">
-                            <div style="display: flex; align-items: center; gap: 1rem;">
-                                <div class="avatar">MG</div>
-                                <div>
-                                    <strong>Prof. María González</strong>
-                                    <div style="font-size: 0.8rem; color: #64748B;">Hace 30 minutos</div>
-                                </div>
-                            </div>
-                            <span style="background: #DBEAFE; color: #1E40AF; padding: 0.2rem 0.8rem; border-radius: 15px; font-size: 0.8rem;">Nuevo</span>
-                        </div>
-                        <h4>Retroalimentación sobre tu ensayo</h4>
-                        <p>Hola, he revisado tu ensayo y me parece muy bien estructurado. Te sugiero ampliar la conclusión y revisar algunas citas. ¡Buen trabajo!</p>
-                    </div>
-                    
-                    <div class="message-thread">
-                        <div class="message-header">
-                            <div style="display: flex; align-items: center; gap: 1rem;">
-                                <div class="avatar">AL</div>
-                                <div>
-                                    <strong>Ana López</strong>
-                                    <div style="font-size: 0.8rem; color: #64748B;">Hace 2 horas</div>
-                                </div>
-                            </div>
-                        </div>
-                        <h4>Pregunta sobre el proyecto grupal</h4>
-                        <p>¿Podemos reunirnos mañana para revisar el avance del proyecto? Tengo algunas ideas que me gustaría compartir contigo.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Tasks Page -->
-        <div id="tasks" class="page">
-            <div style="max-width: 1000px; margin: 2rem auto; padding: 0 2rem;">
-                <h2 style="color: var(--blue); margin-bottom: 2rem;">Gestión de Tareas y Recursos</h2>
-                
-                <!-- Botones de acción -->
-                <div style="display: flex; gap: 1rem; margin-bottom: 2rem; flex-wrap: wrap;">
-                    <button class="btn" onclick="openTaskModal()" style="flex: 1; min-width: 200px;">
-                        📚 Subir Tarea
-                    </button>
-                    <button class="btn" onclick="openImageModal()" style="flex: 1; min-width: 200px;">
-                        🖼️ Subir Imagen
-                    </button>
-                </div>
-                
-                <!-- Sección de Tareas -->
-                <div class="form-container" style="margin-bottom: 2rem;">
-                    <h3>Subir Nueva Tarea</h3>
-                    <form id="taskForm">
-                        <div class="form-group">
-                            <label for="taskTitle">Título de la Tarea</label>
-                            <input type="text" id="taskTitle" required placeholder="Nombre de la tarea">
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="taskSubject">Materia</label>
-                            <select id="taskSubject" required>
-                                <option value="">Seleccionar materia</option>
-                                <option value="math">Matemáticas</option>
-                                <option value="spanish">Español</option>
-                                <option value="science">Ciencias</option>
-                                <option value="history">Historia</option>
-                                <option value="english">Inglés</option>
-                            </select>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="taskFile">Archivo de la Tarea</label>
-                            <input type="file" id="taskFile" accept=".pdf,.doc,.docx,.txt" required>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="taskDescription">Descripción</label>
-                            <textarea id="taskDescription" rows="3" placeholder="Descripción adicional..."></textarea>
-                        </div>
-                        
-                        <button type="submit" class="btn">Subir Tarea</button>
-                    </form>
-                </div>
-                
-                <h3 style="margin-bottom: 1rem;">Mis Tareas</h3>
-                <div id="tasksList">
-                    <div class="task-item" data-task-id="1">
-                        <div>
-                            <h4>Ensayo sobre Literatura Contemporánea</h4>
-                            <p style="color: #64748B; margin: 0.5rem 0;">Matemáticas • 45 min</p>
-                            <div style="display: flex; justify-content: space-between; align-items: center;">
-                                <span style="background: #DBEAFE; color: #1E40AF; padding: 0.3rem 0.8rem; border-radius: 15px; font-size: 0.8rem;">Básico</span>
-                                <div style="display: flex; gap: 0.5rem;">
-                                    <button class="btn" style="padding: 0.5rem 1rem;" onclick="viewTask('1')">Ver Tarea</button>
-                                    <button class="btn" style="padding: 0.5rem 1rem;" onclick="downloadTask('1')">Descargar</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Sección de Imágenes -->
-                <h3 style="margin: 2rem 0 1rem 0;">Galería de Imágenes</h3>
-                <div id="imagesGrid" class="images-grid">
-                    <!-- Las imágenes se cargarán dinámicamente aquí -->
-                </div>
-            </div>
-        </div>
-
-        <!-- Videos Page -->
-        <div id="videos" class="page">
-            <div style="max-width: 1200px; margin: 2rem auto; padding: 0 2rem;">
-                <h2 style="color: var(--blue); margin-bottom: 2rem;">Contenido Multimedia</h2>
-                <p style="text-align: center; margin-bottom: 2rem;">Accede a videos educativos y material audiovisual</p>
-                
-                <!-- Botón para subir video -->
-                <div style="text-align: center; margin-bottom: 2rem;">
-                    <button class="btn" onclick="openUploadVideoModal()" style="font-size: 1.1rem; padding: 1rem 2rem;">
-                        🎥 Subir Nuevo Video
-                    </button>
-                </div>
-                
-                <div class="video-grid" id="videoGrid">
-                    <div class="video-card">
-                        <div class="video-thumbnail">▶️</div>
-                        <div class="video-info">
-                            <h4>Historia de México</h4>
-                            <p style="color: #64748B; margin: 0.5rem 0;">Historia • 1h 20min</p>
-                            <div style="display: flex; justify-content: space-between; align-items: center;">
-                                <span style="background: #FEF3C7; color: #92400E; padding: 0.3rem 0.8rem; border-radius: 15px; font-size: 0.8rem;">Intermedio</span>
-                                <button class="btn" style="padding: 0.5rem 1rem;">Ver Video</button>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="video-card">
-                        <div class="video-thumbnail">▶️</div>
-                        <div class="video-info">
-                            <h4>Experimentos de Física</h4>
-                            <p style="color: #64748B; margin: 0.5rem 0;">Ciencias • 35 min</p>
-                            <div style="display: flex; justify-content: space-between; align-items: center;">
-                                <span style="background: #D1FAE5; color: #065F46; padding: 0.3rem 0.8rem; border-radius: 15px; font-size: 0.8rem;">Avanzado</span>
-                                <button class="btn" style="padding: 0.5rem 1rem;">Ver Video</button>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="video-card">
-                        <div class="video-thumbnail">▶️</div>
-                        <div class="video-info">
-                            <h4>Literatura Contemporánea</h4>
-                            <p style="color: #64748B; margin: 0.5rem 0;">Español • 55 min</p>
-                            <div style="display: flex; justify-content: space-between; align-items: center;">
-                                <span style="background: #DBEAFE; color: #1E40AF; padding: 0.3rem 0.8rem; border-radius: 15px; font-size: 0.8rem;">Básico</span>
-                                <button class="btn" style="padding: 0.5rem 1rem;">Ver Video</button>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="video-card">
-                        <div class="video-thumbnail">▶️</div>
-                        <div class="video-info">
-                            <h4>English Grammar</h4>
-                            <p style="color: #64748B; margin: 0.5rem 0;">Inglés • 40 min</p>
-                            <div style="display: flex; justify-content: space-between; align-items: center;">
-                                <span style="background: #FEF3C7; color: #92400E; padding: 0.3rem 0.8rem; border-radius: 15px; font-size: 0.8rem;">Intermedio</span>
-                                <button class="btn" style="padding: 0.5rem 1rem;">Ver Video</button>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="video-card">
-                        <div class="video-thumbnail">▶️</div>
-                        <div class="video-info">
-                            <h4>Geografía Mundial</h4>
-                            <p style="color: #64748B; margin: 0.5rem 0;">Geografía • 1h 10min</p>
-                            <div style="display: flex; justify-content: space-between; align-items: center;">
-                                <span style="background: #D1FAE5; color: #065F46; padding: 0.3rem 0.8rem; border-radius: 15px; font-size: 0.8rem;">Avanzado</span>
-                                <button class="btn" style="padding: 0.5rem 1rem;">Ver Video</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </main>
-
-    <!-- Notification -->
-    <div id="notification" class="notification">
-        <span id="notificationText"></span>
     </div>
+
+    <!-- Vista de Alumno -->
+    <div id="studentView" class="student-dashboard" style="display: none;">
+        <header class="dashboard-header">
+            <div class="header-left">
+                <span class="logo-icon">🎓</span>
+                <h1>MindSchool</h1>
+            </div>
+            <div class="header-right">
+                <span class="user-info" id="studentUserInfo">Bienvenido, Alumno</span>
+                <button class="btn btn-logout" onclick="logout()">Cerrar Sesión</button>
+            </div>
+        </header>
+
+        <main class="dashboard-main">
+            <div class="dashboard-content">
+                <h2>Mis Materias</h2>
+                <div class="subjects-grid" id="subjectsGrid">
+                    <!-- Las materias se cargarán dinámicamente -->
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Notificaciones -->
+    <div id="notification" class="notification"></div>
 
     <script src="script.js"></script>
 </body>
