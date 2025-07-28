@@ -145,4 +145,8 @@ Thumbs.db
 
 # Uploads
 uploads/*
-!uploads/.gitkeep 
+!uploads/.gitkeep
+
+# Build scripts (keep them in repo for deployment)
+# build.sh
+# start.sh 

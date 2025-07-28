@@ -1,0 +1,26 @@
+{
+  "name": "mindschool-academia-digital",
+  "version": "1.0.0",
+  "description": "Plataforma educativa moderna construida con Flask",
+  "main": "wsgi.py",
+  "scripts": {
+    "start": "python wsgi.py",
+    "dev": "python app.py"
+  },
+  "engines": {
+    "python": "3.12.0"
+  },
+  "keywords": [
+    "flask",
+    "python",
+    "education",
+    "courses",
+    "learning"
+  ],
+  "author": "Granemperador1",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Granemperador1/especial.git"
+  }
+} 
