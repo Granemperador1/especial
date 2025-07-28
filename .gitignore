@@ -128,10 +128,21 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
-# Project specific
-uploads/
-*.log
-server.log
+# Database
+*.db
+*.sqlite
+*.sqlite3
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
 .DS_Store
-.env.local
-.env.production 
+Thumbs.db
+
+# Uploads
+uploads/*
+!uploads/.gitkeep 
